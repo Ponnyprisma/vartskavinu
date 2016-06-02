@@ -100,6 +100,8 @@
         $twig_data['page'] = $twig_file;
     }
 
+    
+
     $twig_data['http_referer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 
     // Nytt twig-objekt skapas. $page innehåller vår twig-data och vi renderar twig-filen index.twig som hanterar all vår data

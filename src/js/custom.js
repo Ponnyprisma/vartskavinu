@@ -218,6 +218,8 @@ $(document).ready(function(){
 					var index = map.markers.length;
 					var lat = e.latLng.lat();
 					var lng = e.latLng.lng();
+                    
+                   
 		
 					//var template = $('#edit_marker_template').text();
 		
@@ -226,17 +228,27 @@ $(document).ready(function(){
 					//if(map.markers.length == 0) {
 					
 						map.addMarker({
+
 							
 							lat: lat,
-							lng: lng
+							lng: lng,
+                            infoWindow: {
+                                content: '<div><form action="" method="POST"><div><input type="date" name="date"><input type="time" name="time"></div><textarea name="textarea" rows="10" cols="50">Write something here</textarea><input class="formen" type="submit" value="Lägg till!"></form></div>'
+                            }
+                           
 							//title: 'Marker #' + index
+                           
 							
 						});
 						
 						$('#google_maps_latitud').val(lat);
 						$('#google_maps_longitud').val(lng);
 
+
+
 						path.push([lat, lng]);
+
+
 					
 					//}
 					
@@ -260,7 +272,7 @@ $(document).ready(function(){
 							}
 						}
 					}
-					
+
 					GMaps.geocode(opt);
 
 					map.removePolylines();
@@ -276,6 +288,32 @@ $(document).ready(function(){
 				name: 'place_marker'
 			}]
 		});
+
+
+    $('#geocoding_form').submit(function(e){
+
+            e.preventDefault();
+
+            GMaps.geocode({
+                address: $('#address').val(),
+                callback: function(results, status) {
+                    if (status == 'OK') {
+                        var latlng = results[0].geometry.location;
+                        map.setCenter(latlng.lat(), latlng.lng());
+                        map.addMarker({
+                            lat: latlng.lat(),
+                            lng: latlng.lng()
+                        });
+                    //console.log(results[0].geometry.location);
+                    }
+                }
+            });
+        });
+
+    $( "#toggle" ).click(function() {
+  $( "p" ).slideToggle( "slow" );
+});
+    
 		
 		//GMaps.on('click', map.map, function(event) {
 		//	
@@ -313,5 +351,7 @@ $(document).ready(function(){
 		//});
 					
 	});
+
+
 		
 });
