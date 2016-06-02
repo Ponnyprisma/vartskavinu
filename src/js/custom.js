@@ -17,7 +17,7 @@ $(document).ready(function(){
 		    zoomControl : true,
 		    zoomControlOpt: {
 				style : 'SMALL',
-				position: 'TOP_LEFT'
+				position: 'TOP_RIGHT'
 			},
 			panControl : false,
 	
