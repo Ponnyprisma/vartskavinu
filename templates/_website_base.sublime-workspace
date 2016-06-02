@@ -1,0 +1,1002 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"text-",
+				"text-transform"
+			],
+			[
+				"text",
+				"text-indent"
+			],
+			[
+				"pin",
+				"pink_less_transp"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"min",
+				"min_height"
+			],
+			[
+				"trans",
+				"transition"
+			],
+			[
+				"pr",
+				"primaryColor"
+			],
+			[
+				"font-s",
+				"font-style"
+			],
+			[
+				"a",
+				"auto"
+			],
+			[
+				"no",
+				"no-drop"
+			],
+			[
+				"box-s",
+				"box-sizing"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"fields",
+				"fields_string"
+			],
+			[
+				"user",
+				"user_email"
+			],
+			[
+				"re",
+				"recoveryaddress"
+			],
+			[
+				"total_",
+				"total_count"
+			],
+			[
+				"trac",
+				"track_id"
+			],
+			[
+				"respondent",
+				"respondent_id"
+			],
+			[
+				"clean",
+				"clean_input"
+			],
+			[
+				"clea",
+				"clean_input"
+			],
+			[
+				"htt",
+				"http_referer"
+			],
+			[
+				"celan",
+				"clean_input"
+			],
+			[
+				"cle",
+				"clean_input"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"total",
+				"total_count"
+			],
+			[
+				"start",
+				"start_date"
+			],
+			[
+				"project_",
+				"project_has_tracks"
+			],
+			[
+				"end",
+				"end_date"
+			],
+			[
+				"respo",
+				"respondent_id"
+			],
+			[
+				"set_t",
+				"set_tracks_for_project"
+			],
+			[
+				"pro",
+				"project_id"
+			],
+			[
+				"clean_",
+				"clean_project_id"
+			],
+			[
+				"que",
+				"questions"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"twig_",
+				"twig_data"
+			],
+			[
+				"check",
+				"checkloginstatus"
+			],
+			[
+				"checklo",
+				"checkloginstatus"
+			],
+			[
+				"return",
+				"return_array"
+			],
+			[
+				"p",
+				"pocket_objects"
+			],
+			[
+				"pc",
+				"pocket_obj"
+			],
+			[
+				"box",
+				"box-sizing"
+			],
+			[
+				"font-",
+				"font-style"
+			],
+			[
+				"font",
+				"font-style"
+			],
+			[
+				"delet",
+				"delete_btn"
+			],
+			[
+				"i",
+				"inset"
+			],
+			[
+				"max-",
+				"max-width"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"image",
+				"image_no"
+			],
+			[
+				"delete",
+				"delete_img"
+			],
+			[
+				"dele",
+				"delete_img"
+			],
+			[
+				"target",
+				"target_folder"
+			],
+			[
+				"tar",
+				"target_name"
+			],
+			[
+				"form",
+				"formOjb"
+			],
+			[
+				"this",
+				"this_user"
+			],
+			[
+				"term",
+				"term_taxonomy_id"
+			],
+			[
+				"th",
+				"this_report"
+			],
+			[
+				"post",
+				"post_modified"
+			],
+			[
+				"repo",
+				"report_posted_week"
+			],
+			[
+				"weekly",
+				"weekly_report"
+			],
+			[
+				"st",
+				"study_plan_approved"
+			],
+			[
+				"study",
+				"study_plan_approved"
+			],
+			[
+				"su",
+				"study_plan_id"
+			],
+			[
+				"sty",
+				"study_plan_id"
+			],
+			[
+				"stud",
+				"study_plan_id"
+			],
+			[
+				"s",
+				"study_plans"
+			],
+			[
+				"get_c",
+				"get_columns"
+			],
+			[
+				"wp_get",
+				"wp_get_current_user"
+			],
+			[
+				"due_date",
+				"due_date_timestamp"
+			],
+			[
+				"due_",
+				"due_date_timestamp"
+			],
+			[
+				"tas",
+				"task_class_ids"
+			],
+			[
+				"task_",
+				"task_classes"
+			],
+			[
+				"task",
+				"task_course"
+			],
+			[
+				"page",
+				"page_term_ids"
+			],
+			[
+				"page_",
+				"page_term_ids"
+			],
+			[
+				"ass",
+				"assigned_term_ids"
+			],
+			[
+				"assi",
+				"assigned_terms"
+			],
+			[
+				"count",
+				"countquestions"
+			],
+			[
+				"save",
+				"saveTrackQuestions"
+			],
+			[
+				"track",
+				"track_questions"
+			],
+			[
+				"ans",
+				"answer_id"
+			],
+			[
+				"quest",
+				"question_id"
+			],
+			[
+				"un",
+				"unfiltered_answered_questions"
+			],
+			[
+				"is",
+				"is_already_answered"
+			],
+			[
+				"answer",
+				"answer_id"
+			],
+			[
+				"qu",
+				"question_id"
+			],
+			[
+				"tra",
+				"track_questions"
+			],
+			[
+				"grade",
+				"gradebook_users"
+			],
+			[
+				"questio",
+				"question_array"
+			],
+			[
+				"seconds",
+				"remainingSeconds"
+			],
+			[
+				"get",
+				"getOutput"
+			],
+			[
+				"graph",
+				"graphDataPB"
+			],
+			[
+				"gradebook",
+				"gradebook_user"
+			],
+			[
+				"time",
+				"timestampToSeconds"
+			],
+			[
+				"valid",
+				"valid_email_error_msg"
+			],
+			[
+				"vali",
+				"valid_email_error"
+			],
+			[
+				"session_",
+				"session_destroy"
+			],
+			[
+				"post_",
+				"post_error_msg"
+			],
+			[
+				"va",
+				"valid_email_check_active"
+			],
+			[
+				"valid_e",
+				"valid_email_check_active"
+			],
+			[
+				"valid_",
+				"valid_email_check_active"
+			],
+			[
+				"red",
+				"redirect_url"
+			],
+			[
+				"creat",
+				"create_portfolio_taxonomy"
+			],
+			[
+				"hej",
+				"hejkompis_colors"
+			],
+			[
+				"gra",
+				"gradebook_data"
+			],
+			[
+				"ce",
+				"clean_input"
+			],
+			[
+				"star",
+				"start_date"
+			],
+			[
+				"cel",
+				"clean_project_id"
+			],
+			[
+				"proj",
+				"project"
+			],
+			[
+				"project",
+				"project_key"
+			],
+			[
+				"getPo",
+				"getProjectUsers"
+			],
+			[
+				"for",
+				"forhandler"
+			],
+			[
+				"b",
+				"border-color"
+			],
+			[
+				"backgo",
+				"background"
+			],
+			[
+				"site",
+				"sitemap_link"
+			],
+			[
+				"til",
+				"tilbudslink"
+			],
+			[
+				"cou",
+				"count_likes"
+			],
+			[
+				"file_",
+				"file_get_contents"
+			],
+			[
+				"clas",
+				"class_name"
+			],
+			[
+				"twg",
+				"twig_data"
+			],
+			[
+				"d",
+				"distancePrinter"
+			],
+			[
+				"bac",
+				"background-color"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"add",
+				"add_marker"
+			],
+			[
+				"ta",
+				"text-align"
+			],
+			[
+				"table-c",
+				"table-cell"
+			],
+			[
+				"logo",
+				"logo_bottom_offset"
+			],
+			[
+				"log",
+				"logo_bottom_offset"
+			],
+			[
+				"dow",
+				"docViewBottom"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 167.0,
+		"last_filter": "Snippet: ",
+		"selected_items":
+		[
+			[
+				"Snippet: ",
+				"Snippet: HTML w/ jQuery"
+			],
+			[
+				"Snippet: html",
+				"Snippet: Blank HTML Page"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ht",
+				"Snippet: htmlboiler"
+			],
+			[
+				"Package Control: insall",
+				"Package Control: Install Package"
+			],
+			[
+				"install p",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"install",
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public"
+	],
+	"file_history":
+	[
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/templates/menu.twig",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/Gruntfile.js",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/src/scss/style.scss",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/src/scss/_main.scss",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/templates/header.twig",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/package.json",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/Vagrantfile",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/src/scss/_mixins.scss",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/src/scss/_variables.scss",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/src/scss/_mobile.scss",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/src/scss/_tablet.scss",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/src/scss/_desktop.scss",
+		"/Users/perolsson/Documents/Webbplatser/_Website Base/public/src/scss/_animations.scss",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/7EA564D0-0EBB-4DFB-98EE-2D54BFF00280/.htaccess",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/185EDA83-647C-4B97-8118-6E0CC24FD3CC/.htaccess",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/kajsas-rosor-per-olsson/js/scripts.min.js",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/F7164D07-BBE3-4FD0-84A2-E8C9BF5AB0EB/scripts.min.js",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/FD205702-DB2B-4A44-8FFD-1FE25E2C3612/.htpasswd",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/F3B1C27B-5CCA-4929-867D-86927F755570/footer.php",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/memory/public/index.html",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/memory/public/src/scss/style.scss",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/memory/public/src/js/custom.js",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/96EC21E1-40E6-4AA2-8CA2-5B8ED1AE4952/footer.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/E4D9033D-43F3-42D5-878E-1943BFC367FB/style.css",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/memory/Vagrantfile",
+		"/private/etc/hosts",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/F9FA00B3-B056-47F6-9A83-BF830B31DF97/wp-config.php",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/src/scss/_variables.scss",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/src/scss/_main.scss",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/src/scss/_desktop.scss",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/src/js/main.js",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/header.php",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/src/scss/_animations.scss",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/E5DBB0EC-8347-4BA0-BA21-AC6FCE40970E/.htaccess",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/04928989-4DB7-402A-86D7-1138BA18A598/.htpasswd",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/D1CB9FE9-2E48-4363-B299-DA923364D97B/indexSuccess.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/3892EF05-F5ED-41EB-A5FA-28E9408C7434/index.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/88C72A1E-77EB-491F-A930-236015A2CFFF/_profession_form_wrap.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/9C6058CF-45BE-4ACB-A32D-9575831BF992/_profession_form.php",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/classes/post.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/index.php",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/templates/home.fallback.twig",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/src/scss/_main.scss",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/D1C0D88B-0897-4749-AAD5-B2BE7B7A24D4/_quiz_form.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/143DFA3A-71CF-4167-9FCD-F7720F479AAA/functions.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/56E3EAC5-F8F2-470E-AB61-3D2A1FAD78A2/custom.jquery.js",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/18F334A7-CB10-4500-A32D-6F5EBC5DBE20/style.css",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/A021AF55-1946-4471-8941-A1355DEC4C09/wp-config.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/5107A99A-BCD8-42EE-AA82-B52E24363363/wp-config.php",
+		"/Users/perolsson/Documents/Webbplatser/_WORDPRESS STUFF/Plugins DS/_WIP/testdrive-widget/includes/js/custom.jquery.js",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/ADDC4717-7005-4788-AF02-6AB2B92D7E0C/.htaccess",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/E8339FA7-1E40-47DE-916E-1B33249C06C9/custom.jquery.js",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/90F202B7-42AB-4C1E-B782-78FE44A4FD4B/.htpasswd",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/src/scss/_tablet.scss",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/index.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/C1F97CAD-527A-4EDC-840C-F5163FB9ACC2/.htaccess",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/rosarosor.php",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/src/scss/_mixins.scss",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/src/scss/_mobile.scss",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/src/scss/style.scss",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/snittrosor.php",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/footer.php",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Unionen/Unionen/Kampanj K12 v3/_html/250x480/index.html",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Unionen/Unionen/Löneratorn 2016-05/_html/_construct/src/js/custom.js",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Unionen/Unionen/Kampanj K12 v3/_html/300x250/index.html",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/src/scss/_animations.scss",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/templates/header.twig",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/templates/logo.twig",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/DA688301-DD1E-4AF6-A3DF-6BE89A6E68B4/functions.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/F2F88CFF-8950-4EEF-826E-56D2470CD8C8/wp-config.php",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/classes/api.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/templates/dashboard.listtracks.twig",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/classes/respondent.class.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/77D0C712-2CCA-40D2-AE36-9FDF89386CA6/mo.php",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/classes/track.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/classes/project.class.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/E19800C8-10EE-4189-BEF7-B8468919A7FE/index.html",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/api/index.php",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/classes/question.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/classes/answer.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/templates/dashboard.showrespondents.twig",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/templates/dashboard.showrespondent.twig",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/templates/dashboard.showtrack.twig",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/5371109E-63DB-40DA-8B3B-38F8131D791E/responsiveMobile.css",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/36ACABF7-AD06-424E-A41A-A69F164B3800/responsiveMobile.css",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/classes/old_admin.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/classes/curl.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/classes/home.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/templates/index.twig",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/classes/db.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/Vagrantfile",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/templates/dashboard.addtrack.twig",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/WIP/digiplay/public/templates/dashboard.edittrack.twig",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/B1BFD60F-97AE-4C21-8707-8B479515E12B/style.css",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/CC5595A6-B802-4CBF-BB82-ED434C56313C/pof-style.css",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/5E73BB64-24DA-4C69-BF20-5F85E9741446/custom.jquery.js",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/B2F2FD3E-EEB2-49F3-8F7F-C6B02F27927F/databases.yml",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/5B3DE839-6D13-4DD8-80FB-34008A94C599/index.html",
+		"/Users/perolsson/Documents/Webbplatser/Digital Strategi/Unionen/Kampanj/cookie_addon.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/BB41445A-1A83-422A-99B7-80428A7393AA/index.html",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/3CBDA78A-4F8E-40BD-B1ED-C0695FCBFCF3/index.html",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/746EBF80-F21B-4DB6-B7A6-2EC198F9DE31/index.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/6944CE2D-9A6A-4C16-9152-D0904DD2CC01/index.html",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/81B8EB68-C7B1-46DE-9374-433455825001/index.html",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/51857EEB-D76B-4DD4-B186-6D2262C22664/header.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/F4545B6E-E708-4932-A4F2-4755C61BD394/index.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/58E0CC46-B34D-4F59-A6E9-1540DA1896C2/index.html",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/E2CB3957-DE68-4660-8AB6-343ECD847A08/index.html",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/26CBB80C-CFE6-4EF9-B655-255CE3FD2A27/cookie_addon.js",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/AD016B4E-7630-4C51-8637-9C5F33D39FAB/cookie_addon.css",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/4AA239DC-2F74-43C1-9394-E1967485D75C/index.html",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/A755F05E-3688-4065-A258-CBBC943DEC1F/header-student.php",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/AF3F3FA0-823C-4925-941C-8B9047F2D2F5/databases.yml",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/07A87736-38FD-497B-8123-78903F822F43/sqldb.map",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Renault/2016 januari/Kickstart the Renault Way/Clio/HTML DCM/980x120-dcm/index.html",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Renault/2016 maj/Zoe/_html/300x250/index.html",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Renault/2016 maj/Zoe/_html/320x320/index.html",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Renault/2016 maj/Zoe/_html/728x90/index.html",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Renault/2016 maj/Zoe/_html/980x240/index.html",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Renault/2016 maj/Zoe/_html/250x800/index.html",
+		"/Users/perolsson/Documents/Digital Strategi/BANNERS/Renault/2016 maj/Zoe/_html/1272x328/index.html",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/kajsasrosor-notwig/public/test.html",
+		"/Users/perolsson/Downloads/IMG_1795_f_1280.jpg",
+		"/Users/perolsson/Documents/Webbplatser/Medieinstitutet/sandbox/public/html5api/gmaps.html",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/classes/content.class.php",
+		"/Users/perolsson/Documents/Webbplatser/Grafik & Profil/Hej kompis!/new/public/src/scss/style.scss",
+		"/Users/perolsson/Desktop/728x90/index.html",
+		"/Users/perolsson/Library/Caches/Cleanup At Startup/Transmit/93014FB8-CF9A-4531-B496-379B41D45017/_quiz_verdict.php"
+	],
+	"find":
+	{
+		"height": 29.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"-160px;",
+			"print_r",
+			"\"",
+			".one",
+			"7em",
+			"</option>",
+			"\">",
+			"<option value=\"",
+			"privatleas",
+			"button",
+			"cookieCompliance",
+			"div",
+			"wp_head",
+			"pcs",
+			"pcl",
+			"pcs",
+			"pcl",
+			"pcs",
+			"pcl",
+			"></",
+			".disabled-text",
+			"dist",
+			"Chart.Doughnut",
+			"$measurement",
+			"client",
+			";\n",
+			";",
+			">-->\n",
+			".horizontal-blocks",
+			"sidebar-2",
+			"unlink($dir . $file);",
+			"id",
+			"spacious_header_sidebar",
+			"form",
+			"spacious_sidebar_select",
+			"user_gradebook",
+			"metabox_membership_form",
+			"onplay",
+			"clear",
+			"ä",
+			"ö",
+			"å",
+			"h2",
+			"hr",
+			"red-big",
+			"lightbox",
+			"UpdateLinks",
+			"inc_popup_free_init",
+			"update_post_meta",
+			"cc-model-data-total-price-bo",
+			"newinterest",
+			"newinterests",
+			"newinterest",
+			"shows",
+			"checkinterest",
+			"checkuserinterest",
+			"getuserinterest",
+			"setuserinterest",
+			"getuserinterest",
+			"setuserinterest",
+			"search",
+			"min-height: 100px",
+			"min-height:100px",
+			".menu-header-container ul > li",
+			"81be40",
+			"logo-wrap",
+			"bolded",
+			"#site-title",
+			"#site-title a",
+			"#site-title a {",
+			"side-title",
+			"site-title",
+			"unionen_header_image",
+			"UNION_MAX",
+			"substruct_tax",
+			"chefmod-",
+			"firstName",
+			"fileuploader",
+			".select2-container {",
+			".select2-container",
+			"álert",
+			"slideRightAndFadeOut",
+			"pcl",
+			"special_save_pcs_retailer_list",
+			"<?",
+			"unionen_before_content",
+			".more-link",
+			"a",
+			"related-posts-widget",
+			"?>-->\n",
+			"unionen_before_content",
+			"custom-blocks b-job",
+			"wp_head",
+			"custom-background-css",
+			"wp_head",
+			"custom-background-css",
+			"custom-background",
+			"wysiw",
+			".single-post .entry-content, .page .entry-content",
+			"select2",
+			"pcs",
+			"data-placeholder",
+			"true",
+			"getMysqli()",
+			"persist",
+			"$this->mysqli",
+			"../px/",
+			"{$wpdb-&gt;prefix}",
+			"pcs-retailer",
+			"your-plugin-textdomain",
+			"twentythirteen",
+			",	",
+			"dialer",
+			"psc_",
+			"pcs-options",
+			"dspcs",
+			"admin_menu",
+			"postcode",
+			"$(document",
+			"$(",
+			"jquery",
+			"$",
+			"$(",
+			"$(document)",
+			"$",
+			"$(document)",
+			"$",
+			"table-responsive"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"'",
+			" ",
+			"",
+			"testdrive",
+			"@unit",
+			"user",
+			"ä",
+			"ö",
+			"å",
+			"23a038",
+			"cc",
+			"pcl",
+			"mysqli",
+			"$this->settings->mysqli",
+			"px/",
+			"wp_",
+			"pcs-retailers",
+			"twentyfifteen",
+			", ",
+			"pcs_",
+			"pcs_options",
+			"pcs"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 29.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "_website_base.sublime-project",
+	"replace":
+	{
+		"height": 54.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 755.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 233.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+		"max_columns": 1
+	}
+}

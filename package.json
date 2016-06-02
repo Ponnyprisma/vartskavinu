@@ -1,0 +1,28 @@
+{
+  "name": "digiplay",
+  "version": "1.0.0",
+  "description": "Vaer Ska Vi No Lille Do",
+  "main": "index.js",
+  "dependencies": {
+    "matchdep": "^1.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "cssnano": "^3.5.2",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-less": "^1.3.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-jscs": "^2.8.0",
+    "grunt-postcss": "^0.8.0",
+    "node-bourbon": "^1.0.0",
+    "node-neat": "^1.7.2",
+    "pixrem": "^3.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Medieinstitutet",
+  "license": "ISC"
+}
