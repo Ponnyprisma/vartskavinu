@@ -1,5 +1,4 @@
 /* custom javascript and jquery */
-
 var center_lat = '59.317305';   
 var center_lng = '18.034087';
 var path = [];
@@ -45,6 +44,9 @@ $(document).ready(function(){
                        
 					});
 
+                    $( "p" ).append( "<strong>Hello</strong>" );
+
+
 					path.push([lat, lng]);
 					
 					var opt = {
@@ -81,7 +83,7 @@ $(document).ready(function(){
             e.preventDefault();
 
             GMaps.geocode({
-                address: $('#address').val(),
+                address: $('#address_feild').val(),
                 callback: function(results, status) {
                     if (status == 'OK') {
                         var latlng = results[0].geometry.location;
