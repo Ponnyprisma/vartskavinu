@@ -7,7 +7,7 @@
 			$clean_input = DB::clean($input);
 
 			$output = [
-				'title' => 'Välkommen',
+				'title' => 'Vær Ska Vi NOOOOOO?',
 				'data'	=> $clean_input
 			];
 			
