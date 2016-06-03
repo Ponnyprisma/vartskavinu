@@ -4,6 +4,9 @@ var center_lng = '18.034087';
 var path = [];
 var lat;
 var lng;
+var marker;
+var infoWindow;
+var service;
 
 $(document).ready(function(){
 	
@@ -15,8 +18,8 @@ $(document).ready(function(){
 			lat: center_lat,
 			lng: center_lng,
 			zoom: 6,
-		    zoomControl : true,
-		    zoomControlOpt: {
+			zoomControl : true,
+			zoomControlOpt: {
 				style : 'SMALL',
 				position: 'TOP_RIGHT'
 			},
@@ -24,27 +27,28 @@ $(document).ready(function(){
 	
 		});
 
-		map.setOptions({styles: styles});
+		/*map.setOptions({styles: styles});*/
 		
 		map.setContextMenu({
 			control: 'map',
-			options: [{
-				action: function(e) {
-					var index = map.markers.length;
-					lat = e.latLng.lat();
-					lng = e.latLng.lng();
-					
-					map.addMarker({
+			options: [
+				{
+					action: function(e) {
 						
-						lat: lat,
-						lng: lng,
-                        infoWindow: {
-                            content: '<div><form action="" method="POST"><div><input type="date" name="date"><input type="time" name="time"></div><textarea name="textarea" rows="10" cols="50">Write something here</textarea><input class="formen" type="submit" value="Lägg till!"></form></div>'
-                        }
-                       
-					});
+						var index = map.markers.length;
+						lat = e.latLng.lat();
+						lng = e.latLng.lng();
+						setCityMarker(lat,lng);
+						
+					},
+					title: 'Placera markör',
+					name: 'place_marker'
+				}
+			]
+		
+		});
 
-                    $( "p" ).append( "<strong>Hello</strong>" );
+
 
 
 					path.push([lat, lng]);
@@ -61,26 +65,39 @@ $(document).ready(function(){
 						}
 					}
 
-					GMaps.geocode(opt);
+		$('#geocoding_form').submit(function(e){
 
-					map.removePolylines();
-					map.drawPolyline({
-						path: path,
-						strokeColor: '#131540',
-						strokeOpacity: 0.6,
-						strokeWeight: 6
-					});
-					
-				},
-				title: 'Placera markör',
-				name: 'place_marker'
-			}]
+
+			e.preventDefault();
+
+			GMaps.geocode({
+				address: $('#address_field').val(),
+				callback: function(results, status) {
+					if (status == 'OK') {
+						var latlng = results[0].geometry.location;
+						lat = latlng.lat();
+						lng = latlng.lng();
+						map.setCenter(lat, lng);
+						setCityMarker(lat, lng);
+					}
+				}
+			});
 		});
+					
+	});
 
+	$( ".toggle" ).click(function() {
+		$( "p" ).slideToggle( "slow" );
+	});
+		
+});
 
-    $('#geocoding_form').submit(function(e){
+function setCityMarker(lat,lng) {
 
-            e.preventDefault();
+	if(marker) {
+		infoWindow.close(map,marker);
+	}
+
 
             GMaps.geocode({
                 address: $('#address_feild').val(),
@@ -95,12 +112,44 @@ $(document).ready(function(){
                     }
                 }
             });
-        });
+        
 				
-	});
 
-    $( "#toggle" ).click(function() {
-        $( "p" ).slideToggle( "slow" );
-    });
-		
-});
+	// Create infoWindow
+	infoWindow = new google.maps.InfoWindow({
+		content: ''
+
+	});
+	
+	marker = map.addMarker({	
+		lat: lat,
+		lng: lng,
+		infoWindow: infoWindow
+	});
+	
+	infoWindow.open(map,marker);
+
+	path.push([lat, lng]);
+	
+	var opt = {
+		lat : lat,
+		lng : lng,
+		callback : function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				console.log(results);
+				infoWindow.setContent(results[0].formatted_address);
+				//$('#gmaps_address').text(results[0].formatted_address);
+				//$('input#address').val(results[0].formatted_address);
+			}
+		}
+	}
+	GMaps.geocode(opt);
+
+	map.removePolylines();
+	map.drawPolyline({
+		path: path,
+		strokeColor: '#131540',
+		strokeOpacity: 0.6,
+		strokeWeight: 6
+	});
+}
