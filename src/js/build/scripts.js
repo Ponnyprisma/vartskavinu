@@ -28,7 +28,7 @@ $(document).ready(function(){
 	
 		});
 
-		/*map.setOptions({styles: styles});*/
+		map.setOptions({styles: styles});
 		
 		map.setContextMenu({
 			control: 'map',
@@ -38,7 +38,7 @@ $(document).ready(function(){
 						
 						var index = map.markers.length;
 						lat = e.latLng.lat();
-						lng = e.latLng.lng();
+						lng = e.latLng.lng();	
 						setCityMarker(lat,lng);
 						
 					},
@@ -69,8 +69,12 @@ $(document).ready(function(){
 					
 	});
 
-	$( "#toggle" ).click(function() {
-		$( "p" ).slideToggle( "slow" );
+	$(document).on('click', '[data-type="slider"]', function(e) {
+		var target = $(this).attr('data-target');
+		$(this).siblings('div[data-content="mybox"]').slideToggle('slow');
+		//$('[data-content="'+target+'"]').slideToggle('slow');
+		$(this).children('i').toggleClass('fa-chevron-down fa-chevron-up');
+		return false;
 	});
 		
 });
@@ -86,37 +90,54 @@ function setCityMarker(lat,lng) {
 		content: ''
 	});
 	
-	marker = map.addMarker({	
-		lat: lat,
-		lng: lng,
-		infoWindow: infoWindow
-	});
-	
-	infoWindow.open(map,marker);
-
-	path.push([lat, lng]);
-	
 	var opt = {
 		lat : lat,
 		lng : lng,
 		callback : function(results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
-				console.log(results);
-				infoWindow.setContent(results[0].formatted_address);
-				//$('#gmaps_address').text(results[0].formatted_address);
-				//$('input#address').val(results[0].formatted_address);
+
+			console.log(results);
+
+			if (status != google.maps.GeocoderStatus.OK) {
+				console.error(status); return;
 			}
+
+			if(confirm('Menade du '+results[0].formatted_address+'?')) {
+
+				marker = map.addMarker({	
+					lat: lat,
+					lng: lng,
+					infoWindow: infoWindow
+				});
+				
+				infoWindow.open(map,marker);
+
+				path.push([lat, lng]);
+
+				map.removePolylines();
+				map.drawPolyline({
+					path: path,
+					strokeColor: '#131540',
+					strokeOpacity: 0.6,
+					strokeWeight: 6
+				});
+
+				$('#places').append(
+					'<div class="place-box">' +
+					results[0].formatted_address + '<br />' +
+					'<a href="#" data-type="slider" data-target="mybox">Visa information <i class="fa fa-fw fa-chevron-down"></i></a>' +
+					'<div class="place-box-info" data-content="mybox"><p>Här ska all info om destinationen/aktiviteten skrivas ut!</p></div>' +
+					'</div>'
+				);
+
+			}
+			
+			infoWindow.setContent(results[0].formatted_address);
+				
 		}
 	}
+
 	GMaps.geocode(opt);
 
-	map.removePolylines();
-	map.drawPolyline({
-		path: path,
-		strokeColor: '#131540',
-		strokeOpacity: 0.6,
-		strokeWeight: 6
-	});
 }
 
 var styles = [
