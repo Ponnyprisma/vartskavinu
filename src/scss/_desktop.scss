@@ -8,9 +8,9 @@ section {
 	aside {
 		@include span-columns(3);
 		@include pad();
-		height: 100vh;
+		min-height: 100vh;
 
-		p {
+		.place-box-info {
 			display: none;
 			//width: 50%;
 			//height: 200px;
@@ -27,4 +27,3 @@ section {
 	}
 
 }
-
