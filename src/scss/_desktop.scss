@@ -3,11 +3,10 @@
 section {
 
 	background-color: #ffcc00;
-	@include outer-container(100%);
+	//@include outer-container(100%);
   
 	aside {
-
-		@include pad();
+		//@include pad();
 		min-height: 100vh;
 
 		.place-box-info {
