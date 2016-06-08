@@ -1,5 +1,6 @@
 		<section class="row">
-			<aside class="col-lg-3">
+		
+			<aside class="col-lg-3 col-xs-6" id="travelPlanner">
 				<h1>Vær ska vi no lille do?</h1>
 				<div id="address">
 					<form method="post" id="geocoding_form">
@@ -10,7 +11,7 @@
 						</div>
 					</form>
 				</div>
-				<div id="toggle">Läsa in destinationer<i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+				<div id="toggle"><p>Läsa in destinationer</p><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
 				<!--<p>Här ska all info om destinationen/aktiviteten skrivas ut! 
 				Lipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -21,7 +22,11 @@
 				<div id="places">
 				</div>
 			</aside>
-			<article class="col-lg-9">
+			<div class="col-lg-1 col-xs-1 mobile-toggle" id="mobile-toggle">
+				<i class="fa fa-angle-down" id ="icon" aria-hidden="true"></i>
+			</div>
+			<article class="col-lg-8 col-sm-8 containerMap">
 				<div id="gmap"></div>
+
 			</article>
 		</section>
