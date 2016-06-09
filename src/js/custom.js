@@ -66,6 +66,8 @@ $(document).ready(function(){
 				}
 			});
 		});
+
+
 					
 	});
 
@@ -76,7 +78,23 @@ $(document).ready(function(){
 		$(this).children('i').toggleClass('fa-chevron-down fa-chevron-up');
 		return false;
 	});
-		
+
+
+	/*$(document).ready(function(){
+	$('#mobile-toggle').on('click', function(){
+
+		$('#travelPlanner').slideToggle();
+
+		$(this).children('i').toggleClass('fa fa-angle-down  fa fa-angle-up');
+		return false;
+		});
+	});*/
+
+	$(document).ready(function () {
+  		$('[data-toggle="offcanvas"]').click(function () {
+   			$('.row-offcanvas').toggleClass('active')
+  		});
+	});	
 });
 
 function setCityMarker(lat,lng) {
@@ -134,6 +152,7 @@ function setCityMarker(lat,lng) {
 			infoWindow.setContent(results[0].formatted_address);
 				
 		}
+
 	}
 
 	GMaps.geocode(opt);
