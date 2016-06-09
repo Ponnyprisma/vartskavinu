@@ -6,6 +6,7 @@ var path = [];
 var lat;
 var lng;
 var marker;
+var markers;
 var infoWindow;
 var service;
 
@@ -66,9 +67,7 @@ $(document).ready(function(){
 				}
 			});
 		});
-
-
-					
+	
 	});
 
 	$(document).on('click', '[data-type="slider"]', function(e) {
@@ -119,15 +118,19 @@ function setCityMarker(lat,lng) {
 				console.error(status); return;
 			}
 
-			if(confirm('Menade du '+results[0].formatted_address+'?')) {
+			//if(confirm('Menade du '+results[0].formatted_address+'?')) {
 
 				marker = map.addMarker({	
 					lat: lat,
 					lng: lng,
-					infoWindow: infoWindow
+					infoWindow: infoWindow,
+					click: function(e) {
+						console.log(this.infoWindow);
+						infoWindow.open(map,this);
+					}
 				});
-				
-				infoWindow.open(map,marker);
+
+				// infoWindow.open(map, marker);
 
 				path.push([lat, lng]);
 
@@ -143,14 +146,23 @@ function setCityMarker(lat,lng) {
 					'<div class="place-box">' +
 					results[0].formatted_address + '<br />' +
 					'<a href="#" data-type="slider" data-target="mybox">Visa information <i class="fa fa-fw fa-chevron-down"></i></a>' +
-					'<div class="place-box-info" data-content="mybox"><p>Här ska all info om destinationen/aktiviteten skrivas ut!</p></div>' +
+					'<div class="place-box-info" data-content="mybox"><p>Här ska vi gå och se Cats the Musical! Sen äter vi på Lilla Tjorven som ligger precis bredvid. Vi har bord klockan 21:30.</p></div>' +
 					'</div>'
 				);
-
-			}
+			//}
 			
-			infoWindow.setContent(results[0].formatted_address);
-				
+			var contentString = '<div id="content">'+
+				'<div id="siteNotice">'+
+				'</div>'+
+				'<h1 id="firstHeading" class="firstHeading">'+results[0].formatted_address+'</h1>'+
+				'<div id="bodyContent">'+
+				'<form><input type="date"><input type="time"><br><textarea rows="4" cols="40">Skriv här</textarea><br><input type="submit"></form>'+
+				'</div>'+
+				'</div>';
+
+			infoWindow.setContent(contentString);
+
+
 		}
 
 	}
