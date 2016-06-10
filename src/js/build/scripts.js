@@ -3,8 +3,17 @@
 var center_lat = 59.317305;   
 var center_lng = 18.034087;
 var path = [];
+<<<<<<< HEAD
 var bounds = [];
 var markers = [{'lat':'59.317305', 'lng':'18.034087'}, {'lat':'59.307205','lng':'18.014057'}];
+=======
+var lat;
+var lng;
+var marker;
+var markers;
+var infoWindow;
+var service;
+>>>>>>> 70fb7d2d8a8ac144d22b5df0fa8eef8f70a19558
 
 $(document).ready(function(){
 	
@@ -30,6 +39,7 @@ $(document).ready(function(){
 					content: 'Marker '+i
 				}
 			});
+<<<<<<< HEAD
 			
 			addInfoWindow(marker, 'Marker '+i);
 			bounds.push(thislatlng);
@@ -37,6 +47,11 @@ $(document).ready(function(){
 			map.fitLatLngBounds(bounds);
 
 		}
+=======
+		});
+	
+	});
+>>>>>>> 70fb7d2d8a8ac144d22b5df0fa8eef8f70a19558
 
 	});
 
@@ -46,6 +61,71 @@ function addInfoWindow(marker, content) {
 	var infowindow = new google.maps.InfoWindow({
 		content: content
 	});
+<<<<<<< HEAD
+=======
+	
+	var opt = {
+		lat : lat,
+		lng : lng,
+		callback : function(results, status) {
+
+			console.log(results);
+
+			if (status != google.maps.GeocoderStatus.OK) {
+				console.error(status); return;
+			}
+
+			//if(confirm('Menade du '+results[0].formatted_address+'?')) {
+
+				marker = map.addMarker({	
+					lat: lat,
+					lng: lng,
+					infoWindow: infoWindow,
+					click: function(e) {
+						console.log(this.infoWindow);
+						infoWindow.open(map,this);
+					}
+				});
+
+				// infoWindow.open(map, marker);
+
+				path.push([lat, lng]);
+
+				map.removePolylines();
+				map.drawPolyline({
+					path: path,
+					strokeColor: '#131540',
+					strokeOpacity: 0.6,
+					strokeWeight: 6
+				});
+
+				$('#places').append(
+					'<div class="place-box">' +
+					results[0].formatted_address + '<br />' +
+					'<a href="#" data-type="slider" data-target="mybox">Visa information <i class="fa fa-fw fa-chevron-down"></i></a>' +
+					'<div class="place-box-info" data-content="mybox"><p>Här ska vi gå och se Cats the Musical! Sen äter vi på Lilla Tjorven som ligger precis bredvid. Vi har bord klockan 21:30.</p></div>' +
+					'</div>'
+				);
+			//}
+			
+			var contentString = '<div id="content">'+
+				'<div id="siteNotice">'+
+				'</div>'+
+				'<h1 id="firstHeading" class="firstHeading">'+results[0].formatted_address+'</h1>'+
+				'<div id="bodyContent">'+
+				'<form><input type="date"><input type="time"><br><textarea rows="4" cols="40">Skriv här</textarea><br><input type="submit"></form>'+
+				'</div>'+
+				'</div>';
+
+			infoWindow.setContent(contentString);
+
+
+		}
+
+	}
+
+	GMaps.geocode(opt);
+>>>>>>> 70fb7d2d8a8ac144d22b5df0fa8eef8f70a19558
 
 	marker.addListener('click', function() {
 		infowindow.open(marker.get('map'), marker);

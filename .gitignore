@@ -1,0 +1,5 @@
+css/style.css
+js/scripts.min.js
+.sass-cache/*
+.DS_Store
+node_modules

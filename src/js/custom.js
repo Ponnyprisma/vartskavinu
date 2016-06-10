@@ -30,14 +30,14 @@ $(document).ready(function(){
 					content: 'Marker '+i
 				}
 			});
-			
+
 			addInfoWindow(marker, 'Marker '+i);
 			bounds.push(thislatlng);
 
 			map.fitLatLngBounds(bounds);
 
 		}
-
+	
 	});
 
 });
