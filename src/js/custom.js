@@ -17,6 +17,10 @@ var personMarker = new google.maps.MarkerImage("/px/marker_person-44x60-2x.png",
  */
 $(document).ready(function(){
 	
+	$('[data-toggle="offcanvas"]').click(function () {
+		$('.row-offcanvas').toggleClass('active')
+	});
+
 	/*
 		När vårt element med Id "gmap" existerar
 	 */
@@ -55,26 +59,10 @@ $(document).ready(function(){
 		}
 
 		/*
-			Vänsterklick på kartan döljer menyn
-		 */
-		google.maps.event.addListener(map, "click", function(e){
-			$('.rightclickpopup').fadeOut(100);
-		});
-
-		/*
 			När man högerklickar ska en meny visas med olika alternativ
 		 */
 		google.maps.event.addListener(map, "rightclick", function(e){
-			$('.rightclickpopup').fadeOut(100);
 			setMovableMarker(e.latLng);
-		});
-
-		/*
-			Klick på ett menyalternativ döljer menyn
-		 */
-		$(document).on('click', '.rightclickpopup_link', function(e) {
-			e.preventDefault();
-			$('.rightclickpopup').fadeOut(100);
 		});
 
 		/*
@@ -88,6 +76,14 @@ $(document).ready(function(){
 			// Skapa en fast markör, just nu med tom title och tomt infoWindow
 			//addStaticMarker(latlng, '', '');
 			addLocation(latlng);
+		});
+
+		$('#geocoding_form').on('submit', function(e) {
+			e.preventDefault();
+
+			var address = $('#geocoding_form_address').val();
+			findAddressLocation(address);
+
 		});
 	
 	});
@@ -106,6 +102,8 @@ function addInfoWindow(marker, infoWindowContent) {
 	marker.addListener('click', function() {
 		infowindow.open(marker.get('map'), marker);
 	});
+
+	return infowindow;
 }
 
 /*
@@ -173,6 +171,8 @@ function setMenuXY(currentLatLng){
 };
 
 function setMovableMarker(currentLatLng) {
+
+	var infowindow;
 	
 	if(movable_marker) movable_marker.setMap(null);
 	
@@ -183,37 +183,93 @@ function setMovableMarker(currentLatLng) {
 		icon: personMarker // vi anger vilken markör som ska visas
 	});
 
-	showRightClickPopup(currentLatLng);
+	geocoder.geocode({'location': currentLatLng}, function(results, status) {
 
-	google.maps.event.addListener(movable_marker, "mousedown", function(e){
-		$('.rightclickpopup').fadeOut(100);
+		if(status !== google.maps.GeocoderStatus.OK) {
+			console.error(status);
+			return false;
+		}
+
+		if(results[2]) {
+			var address = results[2].formatted_address;
+			infowindow = addInfoWindow(movable_marker, createMovableMarkerBtn(address));
+			infowindow.open(map, movable_marker);
+		} 
+		else {
+	        alert('Ingen address hittad!');
+		}
+
 	});
 
-	google.maps.event.addListener(movable_marker, "rightclick", function(e){
-		showRightClickPopup(e.latLng);
+	google.maps.event.addListener(movable_marker, "dragend", function(e){
+		
+		geocoder.geocode({'location': e.latLng}, function(results, status) {
+
+			if(status !== google.maps.GeocoderStatus.OK) {
+				console.error(status);
+				return false;
+			}
+
+			if(results[2]) {
+				var address = results[2].formatted_address;
+				infowindow.setContent(createMovableMarkerBtn(address));
+			} 
+			else {
+		        alert('Ingen address hittad!');
+			}
+
+		});
+
 	});
 
 
 }
 
-function addStaticMarker(latlng, titleContent, infoWindowContent) {
+function createMovableMarkerBtn(address) {
+	var output = '';
+
+	output += '<p><strong>Hittad adress</strong><br />'+address+'</p>';
+	output += '<a href="#" class="btn btn-primary btn-sm btn-block" id="place_marker">Placera markör</a>';
+
+	return output;
+}
+
+function addStaticMarker(latlng, infoWindowContent) {
+
+	var markerTitle = markers.length > 0 ? 'Resmål nummer '+markers.length : 'Resan startar här';
+
 	// Skapa ett nytt markörobjekt
 	var marker = new google.maps.Marker({
 		position: latlng, // var på kartan markören ska befinna sig
 		map: map, // vilket kartobjekt som markören ska vara på
-		title: titleContent, // vad som ska visas när man för pekaren över markören
+		title: markerTitle, // vad som ska visas när man för pekaren över markören
 		icon: standardMarker, // vi anger vilken markör som ska visas
 		animation: google.maps.Animation.DROP,
 		draggable: true
 	});
 
 	// Funktion för att lägga till ett infofönster när man klickar på en markör
-	addInfoWindow(marker, infoWindowContent);
+	var infowindow = addInfoWindow(marker, infoWindowContent);
 	addToPath(latlng);
+
+	markers.push(marker);
+
+	var marker_id = markers.length;
+
+	marker.addListener('dragend',function(e) {
+        updatePath(markers);
+        updateLocation(infowindow, e.latLng, marker_id);
+    });
+
+    marker.addListener('drag',function(e) {
+        path.setOptions({strokeOpacity: .2});
+    });
+
+    
 
 }
 
-function addLocation(latlng, callback) {
+function addLocation(latlng) {
 	geocoder.geocode({'location': latlng}, geocb);
 
 	function geocb(results, status) {
@@ -226,6 +282,28 @@ function addLocation(latlng, callback) {
 		if(results[2]) {
 			var address = results[2].formatted_address;
 			addStaticMarker(latlng, address, address);
+			addToPlacesList(address);
+		} 
+		else {
+	        alert('Ingen address hittad!');
+		}
+	}
+}
+
+function updateLocation(infowindow, latlng, marker_id) {
+	geocoder.geocode({'location': latlng}, geocb);
+
+	function geocb(results, status) {
+
+		if(status !== google.maps.GeocoderStatus.OK) {
+			console.error(status);
+			return false;
+		}
+
+		if(results[2]) {
+			var address = results[2].formatted_address;
+			infowindow.setContent(address);
+			updatePlaceList(marker_id, address);
 		} 
 		else {
 	        alert('Ingen address hittad!');
@@ -239,6 +317,24 @@ function addToPath(latlng) {
 	
 	if(path) path.setMap(null);
 
+	createPath(path_coordinates);
+
+}
+
+function updatePath(markers) {
+
+	path_coordinates = [];
+	for(i in markers) {
+		path_coordinates.push({'lat': markers[i].getPosition().lat(), 'lng': markers[i].getPosition().lng()});
+	}
+
+	if(path) path.setMap(null);
+
+	createPath(path_coordinates);
+
+}
+
+function createPath(path_coordinates) {
 	path = new google.maps.Polyline({
 		path: path_coordinates,
 		geodesic: true,
@@ -248,5 +344,36 @@ function addToPath(latlng) {
 	});
 
 	path.setMap(map);
+}
 
+function findAddressLocation(address) {
+    geocoder.geocode( { 'address': address}, function(results, status) {
+		if (status !== google.maps.GeocoderStatus.OK) {
+			console.error(status);
+			return false;
+		}
+		
+		var latlng = results[0].geometry.location;
+		map.setCenter(latlng);
+		setMovableMarker(latlng);
+      
+    });
+}
+
+function addToPlacesList(address) {
+	
+	var marker_id = markers.length;
+
+	var output = '';
+
+	output += '<div class="col-xs-12" data-target="'+marker_id+'">';
+	output += '<h5>'+address+'</h5>';
+	output += '</div>';
+
+	$('#places-list').append(output);
+
+}
+
+function updatePlaceList(marker_id, address) {
+	$('div[data-target="'+marker_id+'"] h5').text(address);
 }
