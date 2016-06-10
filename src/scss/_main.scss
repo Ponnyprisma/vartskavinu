@@ -113,3 +113,12 @@ aside {
 		width: 100vw; /* 12 columns */
 	}
 }
+
+.rightclickpopup{
+	visibility:hidden;
+	background:#ffffff;
+	border:1px solid #8888FF;
+	z-index: 10;
+	position: relative;
+	width: 140px;
+}
