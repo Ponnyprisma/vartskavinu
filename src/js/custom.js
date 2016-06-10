@@ -1,160 +1,53 @@
 /* custom javascript and jquery */
 
-var center_lat = '59.317305';   
-var center_lng = '18.034087';
+var center_lat = 59.317305;   
+var center_lng = 18.034087;
 var path = [];
-var lat;
-var lng;
-var marker;
-var infoWindow;
-var service;
+var bounds = [];
+var markers = [{'lat':'59.317305', 'lng':'18.034087'}, {'lat':'59.307205','lng':'18.014057'}];
 
 $(document).ready(function(){
 	
 	$('#gmap').ready(function(){
-		
-		map = new GMaps({
 	
-			div: '#gmap',
-			lat: center_lat,
-			lng: center_lng,
-			zoom: 6,
-			zoomControl : true,
-			zoomControlOpt: {
-				style : 'SMALL',
-				position: 'TOP_RIGHT'
-			},
-			panControl : false,
-	
-		});
+		var centerLatlng = new google.maps.LatLng(center_lat,center_lng);
+		console.log(centerLatlng);
+		var mapOptions = {
+		  zoom: 12,
+		  center: centerLatlng
+		}
+		var map = new google.maps.Map(document.getElementById("gmap"), mapOptions);
 
-		map.setOptions({styles: styles});
-		
-		map.setContextMenu({
-			control: 'map',
-			options: [
-				{
-					action: function(e) {
-						
-						var index = map.markers.length;
-						lat = e.latLng.lat();
-						lng = e.latLng.lng();	
-						setCityMarker(lat,lng);
-						
-					},
-					title: 'Placera markör',
-					name: 'place_marker'
-				}
-			]
-		
-		});
+		for (var i in markers) {
 
-		$('#geocoding_form').submit(function(e){
+			thislatlng = new google.maps.LatLng(markers[i].lat,markers[i].lng);
 
-			e.preventDefault();
-
-			GMaps.geocode({
-				address: $('#address_field').val(),
-				callback: function(results, status) {
-					if (status == 'OK') {
-						var latlng = results[0].geometry.location;
-						lat = latlng.lat();
-						lng = latlng.lng();
-						map.setCenter(lat, lng);
-						setCityMarker(lat, lng);
-					}
+			var marker = new google.maps.Marker({
+				position: thislatlng,
+				map: map,
+				title: 'Marker '+i,
+				infoWindow: {
+					content: 'Marker '+i
 				}
 			});
-		});
-
-
-					
-	});
-
-	$(document).on('click', '[data-type="slider"]', function(e) {
-		var target = $(this).attr('data-target');
-		$(this).siblings('div[data-content="mybox"]').slideToggle('slow');
-		//$('[data-content="'+target+'"]').slideToggle('slow');
-		$(this).children('i').toggleClass('fa-chevron-down fa-chevron-up');
-		return false;
-	});
-
-
-	/*$(document).ready(function(){
-	$('#mobile-toggle').on('click', function(){
-
-		$('#travelPlanner').slideToggle();
-
-		$(this).children('i').toggleClass('fa fa-angle-down  fa fa-angle-up');
-		return false;
-		});
-	});*/
-
-	$(document).ready(function () {
-  		$('[data-toggle="offcanvas"]').click(function () {
-   			$('.row-offcanvas').toggleClass('active')
-  		});
-	});	
-});
-
-function setCityMarker(lat,lng) {
-
-	if(marker) {
-		infoWindow.close(map,marker);
-	}
-
-	// Create infoWindow
-	infoWindow = new google.maps.InfoWindow({
-		content: ''
-	});
-	
-	var opt = {
-		lat : lat,
-		lng : lng,
-		callback : function(results, status) {
-
-			console.log(results);
-
-			if (status != google.maps.GeocoderStatus.OK) {
-				console.error(status); return;
-			}
-
-			if(confirm('Menade du '+results[0].formatted_address+'?')) {
-
-				marker = map.addMarker({	
-					lat: lat,
-					lng: lng,
-					infoWindow: infoWindow
-				});
-				
-				infoWindow.open(map,marker);
-
-				path.push([lat, lng]);
-
-				map.removePolylines();
-				map.drawPolyline({
-					path: path,
-					strokeColor: '#131540',
-					strokeOpacity: 0.6,
-					strokeWeight: 6
-				});
-
-				$('#places').append(
-					'<div class="place-box">' +
-					results[0].formatted_address + '<br />' +
-					'<a href="#" data-type="slider" data-target="mybox">Visa information <i class="fa fa-fw fa-chevron-down"></i></a>' +
-					'<div class="place-box-info" data-content="mybox"><p>Här ska all info om destinationen/aktiviteten skrivas ut!</p></div>' +
-					'</div>'
-				);
-
-			}
 			
-			infoWindow.setContent(results[0].formatted_address);
-				
+			addInfoWindow(marker, 'Marker '+i);
+			bounds.push(thislatlng);
+
+			map.fitLatLngBounds(bounds);
+
 		}
 
-	}
+	});
 
-	GMaps.geocode(opt);
+});
 
+function addInfoWindow(marker, content) {	
+	var infowindow = new google.maps.InfoWindow({
+		content: content
+	});
+
+	marker.addListener('click', function() {
+		infowindow.open(marker.get('map'), marker);
+	});
 }
