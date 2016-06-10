@@ -37,9 +37,15 @@ article {
 }
 
 aside {
+
 	background-color: yellow;
 	padding: $noPadding;
 	margin-right: -15px;
+
+	.place-box-info {
+		display: none;
+	}
+
 }
 
 .containerMap {
