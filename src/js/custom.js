@@ -53,7 +53,6 @@ $(document).ready(function(){
 			// Skapa ett Google Maps objekt med latitud och longitud
 			latlng = new google.maps.LatLng(markers[i].lat, markers[i].lng);
 
-			//addStaticMarker(latlng, 'Marker '+i, 'Vår nya markör med nummer '+i);
 			addLocation(latlng);
 
 		}
@@ -74,7 +73,6 @@ $(document).ready(function(){
 			// Hämta vår movable_markers positionsobjekt, dvs latitud och longitud
 			latlng = movable_marker.getPosition();
 			// Skapa en fast markör, just nu med tom title och tomt infoWindow
-			//addStaticMarker(latlng, '', '');
 			addLocation(latlng);
 		});
 
@@ -85,6 +83,14 @@ $(document).ready(function(){
 			findAddressLocation(address);
 
 		});
+
+		$(document).on('click', '.delete-marker', function(e) {
+			e.preventDefault();
+			var marker_id = $(this).attr('data-target');
+			if(confirm("Radera resmål?")) {
+				removeLocationAndMarker(marker_id);
+			}
+		})
 	
 	});
 
@@ -234,27 +240,36 @@ function createMovableMarkerBtn(address) {
 	return output;
 }
 
-function addStaticMarker(latlng, infoWindowContent) {
+function createStaticMarkerContent(marker_id, address) {
+	var output = '';
 
-	var markerTitle = markers.length > 0 ? 'Resmål nummer '+markers.length : 'Resan startar här';
+	output += '<div class="static-marker-content">';
+	output += '<p><strong>'+address+'</strong></p>';
+	output += '<a href="#" class="delete-marker" data-target="'+(marker_id-1)+'">Radera markör</a>';
+	output += '</div>';
+
+	return output;
+}
+
+function addStaticMarker(latlng, infoWindowContent) {
 
 	// Skapa ett nytt markörobjekt
 	var marker = new google.maps.Marker({
 		position: latlng, // var på kartan markören ska befinna sig
 		map: map, // vilket kartobjekt som markören ska vara på
-		title: markerTitle, // vad som ska visas när man för pekaren över markören
 		icon: standardMarker, // vi anger vilken markör som ska visas
 		animation: google.maps.Animation.DROP,
 		draggable: true
 	});
 
-	// Funktion för att lägga till ett infofönster när man klickar på en markör
-	var infowindow = addInfoWindow(marker, infoWindowContent);
-	addToPath(latlng);
-
 	markers.push(marker);
-
 	var marker_id = markers.length;
+
+	updateMarkerTitles(markers);
+
+	// Funktion för att lägga till ett infofönster när man klickar på en markör
+	var infowindow = addInfoWindow(marker, createStaticMarkerContent(marker_id, infoWindowContent));
+	addToPath(latlng);	
 
 	marker.addListener('dragend',function(e) {
         updatePath(markers);
@@ -281,7 +296,7 @@ function addLocation(latlng) {
 
 		if(results[2]) {
 			var address = results[2].formatted_address;
-			addStaticMarker(latlng, address, address);
+			addStaticMarker(latlng, address);
 			addToPlacesList(address);
 		} 
 		else {
@@ -302,7 +317,7 @@ function updateLocation(infowindow, latlng, marker_id) {
 
 		if(results[2]) {
 			var address = results[2].formatted_address;
-			infowindow.setContent(address);
+			infowindow.setContent(createStaticMarkerContent(marker_id, address));
 			updatePlaceList(marker_id, address);
 		} 
 		else {
@@ -366,7 +381,7 @@ function addToPlacesList(address) {
 
 	var output = '';
 
-	output += '<div class="col-xs-12" data-target="'+marker_id+'">';
+	output += '<div class="col-xs-12 place" data-target="'+(marker_id-1)+'">';
 	output += '<h5>'+address+'</h5>';
 	output += '</div>';
 
@@ -376,4 +391,25 @@ function addToPlacesList(address) {
 
 function updatePlaceList(marker_id, address) {
 	$('div[data-target="'+marker_id+'"] h5').text(address);
+}
+
+function removeLocationAndMarker(marker_id) {
+	
+	$('.place[data-target="'+marker_id+'"]').fadeOut(200, function() {
+		$(this).remove();
+	});
+	markers[marker_id].setMap(null);
+	delete markers[marker_id];
+	updatePath(markers);
+	updateMarkerTitles(markers);
+}
+
+function updateMarkerTitles(markers) {
+	var no = 0;
+
+	for(var i in markers) {
+		var title = no === 0 ? 'Resan startar här' : 'Resmål nummer '+no;
+		markers[i].setTitle(title);
+		no += 1;
+	}
 }
