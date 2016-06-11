@@ -8,6 +8,7 @@ var center_lat = 59.317305;
 var center_lng = 18.034087;
 var movable_marker;
 var markers = [];
+var trip_ended = false;
 
 var standardMarker = new google.maps.MarkerImage("/px/marker_member-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
 var personMarker = new google.maps.MarkerImage("/px/marker_person-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
@@ -90,7 +91,27 @@ $(document).ready(function(){
 			if(confirm("Radera resmål?")) {
 				removeLocationAndMarker(marker_id);
 			}
-		})
+		});
+
+		$('#end-trip').on('click', function(e) {
+			e.preventDefault();
+
+			if($(this).hasClass('trip-ended')) {
+				openTrip();
+				$(this).fadeOut(200, function() {
+					$(this).text('Tillbaka till resans startpunkt').fadeIn(200);
+					$(this).removeClass('trip-ended');
+				});
+			}
+			else {
+				endTrip();
+				$(this).fadeOut(200, function() {
+					$(this).text('Resrutt stängd. Klicka här för att öppna igen').fadeIn(200);
+					$(this).addClass('trip-ended');
+				});
+			}	
+			
+		});
 	
 	});
 
@@ -111,70 +132,6 @@ function addInfoWindow(marker, infoWindowContent) {
 
 	return infowindow;
 }
-
-/*
-	Funktion för att generera menyn som visas när man högerklickar på kartan
- */
-function showRightClickPopup(currentLatLng) {
-
-	// Skapa variabeln som innehåller menyn
-	var rightClickMenu;
-	
-	//Ta bort om det finns en befintlig dold meny
-	$('.rightclickpopup').remove();
-	
-	// Skapa ett nytt div-element
-	rightClickMenu = document.createElement("div");
-	// Ge det en klass som heter "contextmenu"
-	rightClickMenu.className  = 'rightclickpopup';
-	// Fyll div.contextmenu med innehåll
-	rightClickMenu.innerHTML = '<a class="rightclickpopup_link" id="place_marker" href="#">Placera markör</a>';
-	// Lägg till div.contextmenu (vår meny) i kartans div-element
-	$(map.getDiv()).append(rightClickMenu);
-   	// Ge menyn rätt koordinater så den inte försvinner utanför kartan
-	setMenuXY(currentLatLng);
-	// Gör kartan synlig genom att ändra visibility till "visible"
-	rightClickMenu.style.visibility = "visible";
-
-}
-
-function getCanvasXY(currentLatLng){
-	var scale = Math.pow(2, map.getZoom());
-	var nw = new google.maps.LatLng(
-		map.getBounds().getNorthEast().lat(),
-		map.getBounds().getSouthWest().lng()
-	);
-	var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
-	var worldCoordinate = map.getProjection().fromLatLngToPoint(currentLatLng);
-	var currentLatLngOffset = new google.maps.Point(
-		Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
-		Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
-	);
-	return currentLatLngOffset;
-}
-
-function setMenuXY(currentLatLng){
-	var mapWidth = $(map.getDiv()).width();
-	var mapHeight = $(map.getDiv()).height();
-	var menuWidth = $('.rightclickpopup').width();
-	var menuHeight = $('.rightclickpopup').height();
-	var clickedPosition = getCanvasXY(currentLatLng);
-	var x = clickedPosition.x ;
-	var y = clickedPosition.y ;
-
-	//if to close to the map border, decrease x position
-	if((mapWidth - x ) < menuWidth) {
-		x = x - menuWidth;
-	}
-
-	//if to close to the map border, decrease y position
-	if((mapHeight - y ) < menuHeight) {
-		y = y - menuHeight;
-	}
-
-	$('.rightclickpopup').css('left', x);
-	$('.rightclickpopup').css('top', y);
-};
 
 function setMovableMarker(currentLatLng) {
 
@@ -235,7 +192,9 @@ function createMovableMarkerBtn(address) {
 	var output = '';
 
 	output += '<p><strong>Hittad adress</strong><br />'+address+'</p>';
-	output += '<a href="#" class="btn btn-primary btn-sm btn-block" id="place_marker">Placera markör</a>';
+	if(!trip_ended) {
+		output += '<a href="#" class="btn btn-primary btn-sm btn-block" id="place_marker">Placera markör</a>';
+	}
 
 	return output;
 }
@@ -245,6 +204,9 @@ function createStaticMarkerContent(marker_id, address) {
 
 	output += '<div class="static-marker-content">';
 	output += '<p><strong>'+address+'</strong></p>';
+
+	if(marker_id)
+
 	output += '<a href="#" class="delete-marker" data-target="'+(marker_id-1)+'">Radera markör</a>';
 	output += '</div>';
 
@@ -305,6 +267,26 @@ function addLocation(latlng) {
 	}
 }
 
+function addFinalLocation(latlng) {
+	geocoder.geocode({'location': latlng}, geocb);
+
+	function geocb(results, status) {
+
+		if(status !== google.maps.GeocoderStatus.OK) {
+			console.error(status);
+			return false;
+		}
+
+		if(results[2]) {
+			var address = results[2].formatted_address;
+			addToPlacesList(address);
+		} 
+		else {
+	        alert('Ingen address hittad!');
+		}
+	}
+}
+
 function updateLocation(infowindow, latlng, marker_id) {
 	geocoder.geocode({'location': latlng}, geocb);
 
@@ -341,6 +323,10 @@ function updatePath(markers) {
 	path_coordinates = [];
 	for(i in markers) {
 		path_coordinates.push({'lat': markers[i].getPosition().lat(), 'lng': markers[i].getPosition().lng()});
+	}
+
+	if(trip_ended) {
+		path_coordinates.push({'lat': markers[0].getPosition().lat(), 'lng': markers[0].getPosition().lng()})
 	}
 
 	if(path) path.setMap(null);
@@ -412,4 +398,19 @@ function updateMarkerTitles(markers) {
 		markers[i].setTitle(title);
 		no += 1;
 	}
+}
+
+function endTrip() {
+
+	var latlng = markers[0].getPosition();
+	addToPath(latlng);
+	trip_ended = true;
+
+}
+
+function openTrip() {
+
+	trip_ended = false;
+	updatePath(markers);
+
 }
