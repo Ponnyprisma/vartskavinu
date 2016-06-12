@@ -1,3 +1,7 @@
+/**
+ * Kartans utseende
+ */
+
 var styles = [
     {
         "featureType": "water",
