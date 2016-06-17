@@ -65,6 +65,24 @@ input#roundtrip_arrival_date.visible {
 	display: block;
 }
 
+#places-list-end {
+	display: none;
+
+	&.visible {
+		display: block;
+	}
+
+	.departure_date_wrap {
+		display: none;
+	}
+}
+
+#places-list-start {
+	.arrival_date_wrap {
+		display: none;
+	}
+}
+
 /*
  * Off Canvas
  * -----------------------------------

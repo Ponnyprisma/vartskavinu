@@ -90,6 +90,7 @@ $(document).ready(function(){
 		
 		// Ange vilka inställningar som ska gälla för vår karta
 		var mapOptions = {
+			styles: styles,
 			zoom: 6, // hur inzoomad kartan ska vara
 			center: centerLatlng // vart mitten på kartan ska vara
 		}
@@ -250,134 +251,47 @@ function removeLocationAndMarker(marker_id) {
 
 var styles = [
     {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#e9e9e9"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
+        "featureType": "landscape.natural",
         "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 29
-            },
-            {
-                "weight": 0.2
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 18
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#dedede"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "elementType": "labels.text.stroke",
         "stylers": [
             {
                 "visibility": "on"
             },
             {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
+                "color": "#e0efef"
             }
         ]
     },
     {
-        "elementType": "labels.text.fill",
+        "featureType": "poi",
+        "elementType": "geometry.fill",
         "stylers": [
             {
-                "saturation": 36
+                "visibility": "on"
             },
             {
-                "color": "#333333"
+                "hue": "#1900ff"
             },
             {
-                "lightness": 40
+                "color": "#c0e8e8"
             }
         ]
     },
     {
-        "elementType": "labels.icon",
+        "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "lightness": 100
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels",
         "stylers": [
             {
                 "visibility": "off"
@@ -385,48 +299,27 @@ var styles = [
         ]
     },
     {
-        "featureType": "transit",
+        "featureType": "transit.line",
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#f2f2f2"
+                "visibility": "on"
             },
             {
-                "lightness": 19
+                "lightness": 700
             }
         ]
     },
     {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
+        "featureType": "water",
+        "elementType": "all",
         "stylers": [
             {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 17
-            },
-            {
-                "weight": 1.2
+                "color": "#7dcdcd"
             }
         ]
     }
 ];
-
-
-
 /**
  * Här ligger allt som har med vår rörliga markör att göra
  */
@@ -563,12 +456,18 @@ function addToPlacesList(address, marker_id) {
 
 	output += '<div class="col-xs-12 place" data-content="'+marker_id+'">';
 	output += '<h5 class="text-white">'+address+'</h5>';
-	output += '<p class="text-white"><i class="fa fa-plane fa-fw"></i><span class="arrival_date"></span></p>';
-	output += '<p class="text-white"><i class="fa fa-plane fa-fw fa-rotate-90"></i><span class="departure_date"></span></p>';
+	output += '<p class="text-white arrival_date_wrap"><i class="fa fa-plane fa-fw fa-rotate-90"></i><span class="arrival_date"></span></p>';
+	output += '<p class="text-white departure_date_wrap"><i class="fa fa-plane fa-fw"></i><span class="departure_date"></span></p>';
 	output += '</div>';
 
-	$('#places-list').append(output);
-
+	if(marker_id === 0) { 
+		$('#places-list-start').append(output);
+		$('#places-list-end').append(output);
+	}
+	else {
+		$('#places-list').append(output);
+	}
+	
 }
 
 function updatePlaceList(marker_id, address) {
@@ -694,6 +593,9 @@ function setRoundTrip() {
 	$('input#roundtrip_arrival_date').slideDown(500, function() {
 		$(this).addClass('visible');	
 	});
+	$('#places-list-end').slideDown(500, function() {
+		$(this).addClass('visible');	
+	});
 
 }
 
@@ -702,6 +604,9 @@ function setOneWayTrip() {
 	round_trip = false;
 	updatePath(markers);
 	$('input#roundtrip_arrival_date').slideUp(200, function() {
+		$(this).removeClass('visible');	
+	});
+	$('#places-list-end').slideUp(200, function() {
 		$(this).removeClass('visible');	
 	});
 

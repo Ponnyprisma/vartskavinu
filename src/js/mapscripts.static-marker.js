@@ -101,6 +101,9 @@ function setRoundTrip() {
 	$('input#roundtrip_arrival_date').slideDown(500, function() {
 		$(this).addClass('visible');	
 	});
+	$('#places-list-end').slideDown(500, function() {
+		$(this).addClass('visible');	
+	});
 
 }
 
@@ -109,6 +112,9 @@ function setOneWayTrip() {
 	round_trip = false;
 	updatePath(markers);
 	$('input#roundtrip_arrival_date').slideUp(200, function() {
+		$(this).removeClass('visible');	
+	});
+	$('#places-list-end').slideUp(200, function() {
 		$(this).removeClass('visible');	
 	});
 

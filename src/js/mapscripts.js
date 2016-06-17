@@ -40,6 +40,7 @@ $(document).ready(function(){
 		
 		// Ange vilka inställningar som ska gälla för vår karta
 		var mapOptions = {
+			styles: styles,
 			zoom: 6, // hur inzoomad kartan ska vara
 			center: centerLatlng // vart mitten på kartan ska vara
 		}
