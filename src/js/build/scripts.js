@@ -1,5 +1,6 @@
 var newMaxDate = null;
 var newMinDate = new Date();
+
 $(document).ready(function() {
 	/*
 		När man klickar på ett element med data-toggle "offcanvas" ges .row-canvas en extra klass, "active" som gör att den slajdar in på mobil
@@ -14,6 +15,7 @@ $(document).ready(function() {
 			minDate: newMinDate,
 			maxDate: newMaxDate,
 			onClose: function( selectedDate ) {
+				addDateToList($(this), selectedDate);
       			if ($(this).hasClass('minDate')) {
 					newMinDate = selectedDate;
       			}
@@ -30,6 +32,7 @@ $(document).ready(function() {
 			minDate: new Date(),
 			maxDate: newMaxDate,
 			onClose: function( selectedDate ) {
+				addDateToList($(this), selectedDate);
 				newMinDate = selectedDate === '' ? new Date() : selectedDate;
 				$('.datepicker.minDate').not('.startdate').datepicker('option', 'minDate', newMinDate);
       		}
@@ -37,6 +40,12 @@ $(document).ready(function() {
 	});
 
 });
+
+function addDateToList(thisMarker, selectedDate) {
+	var this_marker_id = thisMarker.attr('data-target');
+	var this_marker_name = thisMarker.attr('name');
+	$('div[data-content="'+this_marker_id+'"]').find('.'+this_marker_name).text(selectedDate);
+}
 /**
  * Här ligger allt som har att göra med kartan men som inte ryms inom andra kategorier
  */
@@ -546,12 +555,14 @@ function createPath(path_coordinates) {
 
 function addToPlacesList(address) {
 	
-	var marker_id = markers.length;
+	var marker_id = (markers.length-1);
 
 	var output = '';
 
-	output += '<div class="col-xs-12 place" data-target="'+(marker_id-1)+'">';
+	output += '<div class="col-xs-12 place" data-content="'+marker_id+'">';
 	output += '<h5 class="text-white">'+address+'</h5>';
+	output += '<p class="arrival_date text-white"></p>';
+	output += '<p class="departure_date text-white"></p>';
 	output += '</div>';
 
 	$('#places-list').append(output);
@@ -643,7 +654,7 @@ function createStaticMarkerContent(marker, marker_id, address) {
 
 	if(marker === markers[0]) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="departure_date" class="form-control datepicker minDate startdate">';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate startdate">';
 		output += '</div>';
 		output += '<div class="form-group">';
 		output += '<label><input type="checkbox" id="round-trip" value="1" ';
@@ -653,14 +664,14 @@ function createStaticMarkerContent(marker, marker_id, address) {
 		output +='> Rundresa</label>'; 
 		output += '</div>';
 		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" class="form-control datepicker maxDate enddate" id="roundtrip_arrival_date">';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker maxDate enddate" id="roundtrip_arrival_date">';
 		output += '</div>';	
 	}
 
 	if(marker !== markers[0]) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" class="form-control datepicker minDate">';
-		output += '<input type="text" name="departure_date" class="form-control datepicker minDate">';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate">';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate">';
 		output += '<a href="#" class="delete-marker" data-target="'+marker_id+'">Radera markör</a>';
 		output += '</div>';
 	}

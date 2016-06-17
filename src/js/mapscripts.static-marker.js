@@ -63,7 +63,7 @@ function createStaticMarkerContent(marker, marker_id, address) {
 
 	if(marker === markers[0]) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="departure_date" class="form-control datepicker minDate startdate">';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate startdate">';
 		output += '</div>';
 		output += '<div class="form-group">';
 		output += '<label><input type="checkbox" id="round-trip" value="1" ';
@@ -73,14 +73,14 @@ function createStaticMarkerContent(marker, marker_id, address) {
 		output +='> Rundresa</label>'; 
 		output += '</div>';
 		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" class="form-control datepicker maxDate enddate" id="roundtrip_arrival_date">';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker maxDate enddate" id="roundtrip_arrival_date">';
 		output += '</div>';	
 	}
 
 	if(marker !== markers[0]) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" class="form-control datepicker minDate">';
-		output += '<input type="text" name="departure_date" class="form-control datepicker minDate">';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate">';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate">';
 		output += '<a href="#" class="delete-marker" data-target="'+marker_id+'">Radera markör</a>';
 		output += '</div>';
 	}
