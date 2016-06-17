@@ -14,6 +14,7 @@ $(document).ready(function() {
 		$(this).datepicker({
 			minDate: newMinDate,
 			maxDate: newMaxDate,
+			dateFormat: "yy-mm-dd",
 			onClose: function( selectedDate ) {
 				addDateToList($(this), selectedDate);
       			if ($(this).hasClass('minDate')) {
@@ -31,6 +32,7 @@ $(document).ready(function() {
 		$(this).datepicker({
 			minDate: new Date(),
 			maxDate: newMaxDate,
+			dateFormat: "yy-mm-dd",
 			onClose: function( selectedDate ) {
 				addDateToList($(this), selectedDate);
 				newMinDate = selectedDate === '' ? new Date() : selectedDate;
@@ -194,8 +196,8 @@ function addLocation(latlng) {
 
 		if(results[2]) {
 			var address = results[2].formatted_address;
-			addStaticMarker(latlng, address);
-			addToPlacesList(address);
+			var marker_id = addStaticMarker(latlng, address);
+			addToPlacesList(address, marker_id);
 		} 
 		else {
 	        alert('Ingen address hittad!');
@@ -553,16 +555,16 @@ function createPath(path_coordinates) {
  * Places List är listan i vänsterspalten
  */
 
-function addToPlacesList(address) {
+function addToPlacesList(address, marker_id) {
 	
-	var marker_id = (markers.length-1);
+	//var marker_id = (markers.length-1);
 
 	var output = '';
 
 	output += '<div class="col-xs-12 place" data-content="'+marker_id+'">';
 	output += '<h5 class="text-white">'+address+'</h5>';
-	output += '<p class="arrival_date text-white"></p>';
-	output += '<p class="departure_date text-white"></p>';
+	output += '<p class="text-white"><i class="fa fa-plane fa-fw"></i><span class="arrival_date"></span></p>';
+	output += '<p class="text-white"><i class="fa fa-plane fa-fw fa-rotate-90"></i><span class="departure_date"></span></p>';
 	output += '</div>';
 
 	$('#places-list').append(output);
@@ -570,7 +572,7 @@ function addToPlacesList(address) {
 }
 
 function updatePlaceList(marker_id, address) {
-	$('div[data-target="'+marker_id+'"] h5').text(address);
+	$('div[data-content="'+marker_id+'"] h5').text(address);
 }
 /**
  * Här ligger allt som har att göra med sökformuläret
@@ -625,6 +627,8 @@ function addStaticMarker(latlng, infoWindowContent) {
     marker.addListener('drag',function(e) {
         path.setOptions({strokeOpacity: .2});
     });
+
+    return marker_id;
 
 }
 

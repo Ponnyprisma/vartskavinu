@@ -14,8 +14,8 @@ function addLocation(latlng) {
 
 		if(results[2]) {
 			var address = results[2].formatted_address;
-			addStaticMarker(latlng, address);
-			addToPlacesList(address);
+			var marker_id = addStaticMarker(latlng, address);
+			addToPlacesList(address, marker_id);
 		} 
 		else {
 	        alert('Ingen address hittad!');

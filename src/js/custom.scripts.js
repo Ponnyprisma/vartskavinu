@@ -14,6 +14,7 @@ $(document).ready(function() {
 		$(this).datepicker({
 			minDate: newMinDate,
 			maxDate: newMaxDate,
+			dateFormat: "yy-mm-dd",
 			onClose: function( selectedDate ) {
 				addDateToList($(this), selectedDate);
       			if ($(this).hasClass('minDate')) {
@@ -31,6 +32,7 @@ $(document).ready(function() {
 		$(this).datepicker({
 			minDate: new Date(),
 			maxDate: newMaxDate,
+			dateFormat: "yy-mm-dd",
 			onClose: function( selectedDate ) {
 				addDateToList($(this), selectedDate);
 				newMinDate = selectedDate === '' ? new Date() : selectedDate;

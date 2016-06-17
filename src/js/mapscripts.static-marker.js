@@ -35,6 +35,8 @@ function addStaticMarker(latlng, infoWindowContent) {
         path.setOptions({strokeOpacity: .2});
     });
 
+    return marker_id;
+
 }
 
 /*
