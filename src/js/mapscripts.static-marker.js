@@ -59,6 +59,7 @@ function createStaticMarkerContent(marker, marker_id, address) {
 
 	output += '<div class="static-marker-content">';
 	output += '<p><strong>'+address+'</strong></p>';	
+	output += '<input type="text" class="datepicker">'
 	if(marker === markers[0]) { 
 		output += '<label><input type="checkbox" id="round-trip" value="1" ';
 		if(round_trip) {

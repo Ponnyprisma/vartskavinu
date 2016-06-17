@@ -1,3 +1,5 @@
+
+var newMinDate = new Date();
 $(document).ready(function() {
 	/*
 		När man klickar på ett element med data-toggle "offcanvas" ges .row-canvas en extra klass, "active" som gör att den slajdar in på mobil
@@ -5,6 +7,20 @@ $(document).ready(function() {
 	$('[data-toggle="offcanvas"]').click(function () {
 		$('.row-offcanvas').toggleClass('active')
 	});
+
+
+	$('body').on('focus',".datepicker", function(){
+		$(this).datepicker({
+			minDate: newMinDate,
+			onClose: function( selectedDate ) {
+      			
+      			newMinDate = selectedDate;
+      		}
+		});
+
+
+	});
+
 });
 /**
  * Här ligger allt som har att göra med kartan men som inte ryms inom andra kategorier
@@ -381,6 +397,9 @@ var styles = [
         ]
     }
 ];
+
+
+
 /**
  * Här ligger allt som har med vår rörliga markör att göra
  */
@@ -601,6 +620,7 @@ function createStaticMarkerContent(marker, marker_id, address) {
 
 	output += '<div class="static-marker-content">';
 	output += '<p><strong>'+address+'</strong></p>';	
+	output += '<input type="text" class="datepicker">'
 	if(marker === markers[0]) { 
 		output += '<label><input type="checkbox" id="round-trip" value="1" ';
 		if(round_trip) {
