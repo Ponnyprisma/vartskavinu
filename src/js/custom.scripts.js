@@ -1,4 +1,4 @@
-
+var newMaxDate = null;
 var newMinDate = new Date();
 $(document).ready(function() {
 	/*
@@ -13,12 +13,14 @@ $(document).ready(function() {
 		$(this).datepicker({
 			minDate: newMinDate,
 			onClose: function( selectedDate ) {
-      			
-      			newMinDate = selectedDate;
+      			if ($(this).hasClass('minDate')) {
+					newMinDate = selectedDate;
+      			}
+      			else if ($(this).hasClass('maxDate')) {
+					newMaxDate = selectedDate;
+      			}
       		}
 		});
-
-
 	});
 
 });
