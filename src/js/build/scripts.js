@@ -9,16 +9,29 @@ $(document).ready(function() {
 	});
 
 
-	$('body').on('focus',".datepicker", function(){
+	$('body').on('focus',".datepicker:not(.startdate)", function(){
 		$(this).datepicker({
 			minDate: newMinDate,
+			maxDate: newMaxDate,
 			onClose: function( selectedDate ) {
       			if ($(this).hasClass('minDate')) {
 					newMinDate = selectedDate;
       			}
       			else if ($(this).hasClass('maxDate')) {
 					newMaxDate = selectedDate;
+					$('.datepicker.minDate').datepicker('option', 'maxDate', newMaxDate);
       			}
+      		}
+		});
+	});
+
+	$('body').on('focus',".datepicker.startdate", function(){
+		$(this).datepicker({
+			minDate: new Date(),
+			maxDate: newMaxDate,
+			onClose: function( selectedDate ) {
+				newMinDate = selectedDate === '' ? new Date() : selectedDate;
+				$('.datepicker.minDate').not('.startdate').datepicker('option', 'minDate', newMinDate);
       		}
 		});
 	});
@@ -200,7 +213,8 @@ function updateLocation(infowindow, latlng, marker_id) {
 
 		if(results[2]) {
 			var address = results[2].formatted_address;
-			infowindow.setContent(createStaticMarkerContent(marker, marker_id, address));
+			//infowindow.setContent(createStaticMarkerContent(marker, marker_id, address));
+			$('#'+marker_id+'_address').text(address);
 			updatePlaceList(marker_id, address);
 		} 
 		else {
@@ -498,8 +512,11 @@ function addToPath(latlng) {
 function updatePath(markers) {
 
 	path_coordinates = [];
+	bounds = new google.maps.LatLngBounds();
 	for(i in markers) {
-		path_coordinates.push({'lat': markers[i].getPosition().lat(), 'lng': markers[i].getPosition().lng()});
+		latlng = new google.maps.LatLng(markers[i].getPosition().lat(), markers[i].getPosition().lng());
+		path_coordinates.push(latlng);
+		bounds.extend(latlng);
 	}
 
 	if(round_trip) {
@@ -534,7 +551,7 @@ function addToPlacesList(address) {
 	var output = '';
 
 	output += '<div class="col-xs-12 place" data-target="'+(marker_id-1)+'">';
-	output += '<h5>'+address+'</h5>';
+	output += '<h5 class="text-white">'+address+'</h5>';
 	output += '</div>';
 
 	$('#places-list').append(output);
@@ -621,22 +638,34 @@ function createStaticMarkerContent(marker, marker_id, address) {
 	var output = '';
 
 	output += '<div class="static-marker-content">';
-	output += '<p><strong>'+address+'</strong></p>';
-	if(marker !== markers[0]) { 	
-		output += '<input type="text" name="arrival_date" class="datepicker minDate">'
-	}
-	output += '<input type="text" name="departure_date" class="datepicker minDate">'
-	if(marker === markers[0]) { 
+	output += '<h4 id="'+marker_id+'_address">'+address+'</h4>';
+	output += '<form class="form">';
+
+	if(marker === markers[0]) {
+		output += '<div class="form-group">';
+		output += '<input type="text" name="departure_date" class="form-control datepicker minDate startdate">';
+		output += '</div>';
+		output += '<div class="form-group">';
 		output += '<label><input type="checkbox" id="round-trip" value="1" ';
 		if(round_trip) {
 			output += ' checked="checked"';
 		}
 		output +='> Rundresa</label>'; 
-		output += '<input type="text" name="arrival_date" class="datepicker maxDate" id="roundtrip_arrival_date">';
+		output += '</div>';
+		output += '<div class="form-group">';
+		output += '<input type="text" name="arrival_date" class="form-control datepicker maxDate enddate" id="roundtrip_arrival_date">';
+		output += '</div>';	
 	}
-	else { 
+
+	if(marker !== markers[0]) {
+		output += '<div class="form-group">';
+		output += '<input type="text" name="arrival_date" class="form-control datepicker minDate">';
+		output += '<input type="text" name="departure_date" class="form-control datepicker minDate">';
 		output += '<a href="#" class="delete-marker" data-target="'+marker_id+'">Radera markör</a>';
+		output += '</div>';
 	}
+
+	output += '</form>';
 	output += '</div>';
 
 	return output;
@@ -647,6 +676,9 @@ function setRoundTrip() {
 	var latlng = markers[0].getPosition();
 	addToPath(latlng);
 	round_trip = true;
+	$('input#roundtrip_arrival_date').slideDown(500, function() {
+		$(this).addClass('visible');	
+	});
 
 }
 
@@ -654,6 +686,9 @@ function setOneWayTrip() {
 
 	round_trip = false;
 	updatePath(markers);
+	$('input#roundtrip_arrival_date').slideUp(200, function() {
+		$(this).removeClass('visible');	
+	});
 
 }
 

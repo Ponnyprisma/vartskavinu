@@ -42,7 +42,8 @@ function updateLocation(infowindow, latlng, marker_id) {
 
 		if(results[2]) {
 			var address = results[2].formatted_address;
-			infowindow.setContent(createStaticMarkerContent(marker, marker_id, address));
+			//infowindow.setContent(createStaticMarkerContent(marker, marker_id, address));
+			$('#'+marker_id+'_address').text(address);
 			updatePlaceList(marker_id, address);
 		} 
 		else {

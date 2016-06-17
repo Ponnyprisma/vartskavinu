@@ -9,7 +9,7 @@ function addToPlacesList(address) {
 	var output = '';
 
 	output += '<div class="col-xs-12 place" data-target="'+(marker_id-1)+'">';
-	output += '<h5>'+address+'</h5>';
+	output += '<h5 class="text-white">'+address+'</h5>';
 	output += '</div>';
 
 	$('#places-list').append(output);

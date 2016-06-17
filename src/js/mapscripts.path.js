@@ -23,8 +23,11 @@ function addToPath(latlng) {
 function updatePath(markers) {
 
 	path_coordinates = [];
+	bounds = new google.maps.LatLngBounds();
 	for(i in markers) {
-		path_coordinates.push({'lat': markers[i].getPosition().lat(), 'lng': markers[i].getPosition().lng()});
+		latlng = new google.maps.LatLng(markers[i].getPosition().lat(), markers[i].getPosition().lng());
+		path_coordinates.push(latlng);
+		bounds.extend(latlng);
 	}
 
 	if(round_trip) {

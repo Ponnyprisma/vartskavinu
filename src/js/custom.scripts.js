@@ -9,16 +9,29 @@ $(document).ready(function() {
 	});
 
 
-	$('body').on('focus',".datepicker", function(){
+	$('body').on('focus',".datepicker:not(.startdate)", function(){
 		$(this).datepicker({
 			minDate: newMinDate,
+			maxDate: newMaxDate,
 			onClose: function( selectedDate ) {
       			if ($(this).hasClass('minDate')) {
 					newMinDate = selectedDate;
       			}
       			else if ($(this).hasClass('maxDate')) {
 					newMaxDate = selectedDate;
+					$('.datepicker.minDate').datepicker('option', 'maxDate', newMaxDate);
       			}
+      		}
+		});
+	});
+
+	$('body').on('focus',".datepicker.startdate", function(){
+		$(this).datepicker({
+			minDate: new Date(),
+			maxDate: newMaxDate,
+			onClose: function( selectedDate ) {
+				newMinDate = selectedDate === '' ? new Date() : selectedDate;
+				$('.datepicker.minDate').not('.startdate').datepicker('option', 'minDate', newMinDate);
       		}
 		});
 	});
