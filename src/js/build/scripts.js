@@ -1,4 +1,4 @@
-
+var newMaxDate = null;
 var newMinDate = new Date();
 $(document).ready(function() {
 	/*
@@ -13,12 +13,14 @@ $(document).ready(function() {
 		$(this).datepicker({
 			minDate: newMinDate,
 			onClose: function( selectedDate ) {
-      			
-      			newMinDate = selectedDate;
+      			if ($(this).hasClass('minDate')) {
+					newMinDate = selectedDate;
+      			}
+      			else if ($(this).hasClass('maxDate')) {
+					newMaxDate = selectedDate;
+      			}
       		}
 		});
-
-
 	});
 
 });
@@ -619,14 +621,18 @@ function createStaticMarkerContent(marker, marker_id, address) {
 	var output = '';
 
 	output += '<div class="static-marker-content">';
-	output += '<p><strong>'+address+'</strong></p>';	
-	output += '<input type="text" class="datepicker">'
+	output += '<p><strong>'+address+'</strong></p>';
+	if(marker !== markers[0]) { 	
+		output += '<input type="text" name="arrival_date" class="datepicker minDate">'
+	}
+	output += '<input type="text" name="departure_date" class="datepicker minDate">'
 	if(marker === markers[0]) { 
 		output += '<label><input type="checkbox" id="round-trip" value="1" ';
 		if(round_trip) {
 			output += ' checked="checked"';
 		}
 		output +='> Rundresa</label>'; 
+		output += '<input type="text" name="arrival_date" class="datepicker maxDate" id="roundtrip_arrival_date">';
 	}
 	else { 
 		output += '<a href="#" class="delete-marker" data-target="'+marker_id+'">Radera markör</a>';
