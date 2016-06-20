@@ -1,266 +1,297 @@
-/* custom javascript and jquery */
+var newMaxDate = null;
+var newMinDate = new Date();
 
-var center_lat = 59.317305;   
-var center_lng = 18.034087;
-var path = [];
-<<<<<<< HEAD
-var bounds = [];
-var markers = [{'lat':'59.317305', 'lng':'18.034087'}, {'lat':'59.307205','lng':'18.014057'}];
-=======
-var lat;
-var lng;
-var marker;
-var markers;
-var infoWindow;
-var service;
->>>>>>> 70fb7d2d8a8ac144d22b5df0fa8eef8f70a19558
-
-$(document).ready(function(){
-	
-	$('#gmap').ready(function(){
-	
-		var centerLatlng = new google.maps.LatLng(center_lat,center_lng);
-		console.log(centerLatlng);
-		var mapOptions = {
-		  zoom: 12,
-		  center: centerLatlng
-		}
-		var map = new google.maps.Map(document.getElementById("gmap"), mapOptions);
-
-		for (var i in markers) {
-
-			thislatlng = new google.maps.LatLng(markers[i].lat,markers[i].lng);
-
-			var marker = new google.maps.Marker({
-				position: thislatlng,
-				map: map,
-				title: 'Marker '+i,
-				infoWindow: {
-					content: 'Marker '+i
-				}
-			});
-<<<<<<< HEAD
-			
-			addInfoWindow(marker, 'Marker '+i);
-			bounds.push(thislatlng);
-
-			map.fitLatLngBounds(bounds);
-
-		}
-=======
-		});
-	
+$(document).ready(function() {
+	/*
+		När man klickar på ett element med data-toggle "offcanvas" ges .row-canvas en extra klass, "active" som gör att den slajdar in på mobil
+	 */
+	$('[data-toggle="offcanvas"]').click(function () {
+		$('.row-offcanvas').toggleClass('active')
 	});
->>>>>>> 70fb7d2d8a8ac144d22b5df0fa8eef8f70a19558
 
+
+	$('body').on('focus',".datepicker:not(.startdate)", function(){
+		$(this).datepicker({
+			minDate: newMinDate,
+			maxDate: newMaxDate,
+			dateFormat: "yy-mm-dd",
+			onClose: function( selectedDate ) {
+				addDateToList($(this), selectedDate);
+      			if ($(this).hasClass('minDate')) {
+					newMinDate = selectedDate;
+      			}
+      			else if ($(this).hasClass('maxDate')) {
+					newMaxDate = selectedDate;
+					$('.datepicker.minDate').datepicker('option', 'maxDate', newMaxDate);
+      			}
+      		}
+		});
+	});
+
+	$('body').on('focus',".datepicker.startdate", function(){
+		$(this).datepicker({
+			minDate: new Date(),
+			maxDate: newMaxDate,
+			dateFormat: "yy-mm-dd",
+			onClose: function( selectedDate ) {
+				addDateToList($(this), selectedDate);
+				newMinDate = selectedDate === '' ? new Date() : selectedDate;
+				$('.datepicker.minDate').not('.startdate').datepicker('option', 'minDate', newMinDate);
+      		}
+		});
 	});
 
 });
 
-function addInfoWindow(marker, content) {	
-	var infowindow = new google.maps.InfoWindow({
-		content: content
-	});
-<<<<<<< HEAD
-=======
+function addDateToList(thisMarker, selectedDate) {
+	var this_marker_id = thisMarker.attr('data-target');
+	var this_marker_name = thisMarker.attr('name');
+	$('div[data-content="'+this_marker_id+'"]').find('.'+this_marker_name).text(selectedDate);
+}
+/**
+ * Här ligger allt som har att göra med kartan men som inte ryms inom andra kategorier
+ */
+
+/* kartobjektet */
+var map;
+/* geocoderobjektet */
+var geocoder;
+/* resruttsobjektet */
+var path;
+/* array som håller koordinaterna för vår resrutt */
+var path_coordinates = [];
+/* variabler för mitten på vår karta */
+var center_lat = 59.317305;   
+var center_lng = 18.034087;
+/* vår "flytande" markör */
+var movable_marker;
+/* alla statiska markörer */
+var markers = [];
+/* variabel som visar om rutten ska återvända till startpunkten eller ej */
+var round_trip = false;
+/* objekt som hjälper till så att alla markörer syns på kartan när en ny markör genereras */
+var bounds;
+/* variabler för våra hemmagjorda markörikoner */
+var standardMarker = new google.maps.MarkerImage("/px/marker_member-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
+var personMarker = new google.maps.MarkerImage("/px/marker_person-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
+
+/*
+	När all kod har körts...
+ */
+$(document).ready(function(){
+
+	/*
+		När vårt element med Id "gmap" existerar
+	 */
+	$('#gmap').ready(function(){
 	
-	var opt = {
-		lat : lat,
-		lng : lng,
-		callback : function(results, status) {
+		// Skapa ett Google Maps objekt med latitud och longitud
+		var centerLatlng = new google.maps.LatLng(center_lat,center_lng);
+		
+		// Ange vilka inställningar som ska gälla för vår karta
+		var mapOptions = {
+			styles: styles,
+			zoom: 6, // hur inzoomad kartan ska vara
+			center: centerLatlng // vart mitten på kartan ska vara
+		}
+		
+		/**
+		 * Generera ett kartobjekt
+		 */
+		map = new google.maps.Map(document.getElementById("gmap"), mapOptions);
+		
+		/**
+		 * Generera ett geocodeobjekt
+		 */
+		geocoder = new google.maps.Geocoder;
 
-			console.log(results);
+		/*
+			Generera ett bounds-objekt
+		 */
+		bounds = new google.maps.LatLngBounds();
 
-			if (status != google.maps.GeocoderStatus.OK) {
-				console.error(status); return;
-			}
+		/*
+			För varje rad/varje objekt i vår array "markers"
+		 */
+		for (var i in markers) {
 
-			//if(confirm('Menade du '+results[0].formatted_address+'?')) {
-
-				marker = map.addMarker({	
-					lat: lat,
-					lng: lng,
-					infoWindow: infoWindow,
-					click: function(e) {
-						console.log(this.infoWindow);
-						infoWindow.open(map,this);
-					}
-				});
-
-				// infoWindow.open(map, marker);
-
-				path.push([lat, lng]);
-
-				map.removePolylines();
-				map.drawPolyline({
-					path: path,
-					strokeColor: '#131540',
-					strokeOpacity: 0.6,
-					strokeWeight: 6
-				});
-
-				$('#places').append(
-					'<div class="place-box">' +
-					results[0].formatted_address + '<br />' +
-					'<a href="#" data-type="slider" data-target="mybox">Visa information <i class="fa fa-fw fa-chevron-down"></i></a>' +
-					'<div class="place-box-info" data-content="mybox"><p>Här ska vi gå och se Cats the Musical! Sen äter vi på Lilla Tjorven som ligger precis bredvid. Vi har bord klockan 21:30.</p></div>' +
-					'</div>'
-				);
-			//}
-			
-			var contentString = '<div id="content">'+
-				'<div id="siteNotice">'+
-				'</div>'+
-				'<h1 id="firstHeading" class="firstHeading">'+results[0].formatted_address+'</h1>'+
-				'<div id="bodyContent">'+
-				'<form><input type="date"><input type="time"><br><textarea rows="4" cols="40">Skriv här</textarea><br><input type="submit"></form>'+
-				'</div>'+
-				'</div>';
-
-			infoWindow.setContent(contentString);
-
+			// Skapa ett Google Maps objekt med latitud och longitud
+			latlng = new google.maps.LatLng(markers[i].lat, markers[i].lng);
+			// Skapa en markör med kartinfo och lägg till i vänsterspalten
+			addLocation(latlng);
 
 		}
 
+		/*
+			När man högerklickar ska ett infowindow dyka upp i vår rörliga markör
+		 */
+		google.maps.event.addListener(map, "rightclick", function(e){
+			setMovableMarker(e.latLng);
+		});
+
+		/*
+			Klicka på "Placera markör" tar bort movable_marker och sätter dit en permanent markör
+		 */
+		$(document).on('click', '#place_marker', function(e) {
+			// Dölj vår tillfälliga markör "movable_marker"
+			if(movable_marker) movable_marker.setMap(null);
+			// Hämta vår movable_markers positionsobjekt, dvs latitud och longitud
+			latlng = movable_marker.getPosition();
+			// Skapa en fast markör, just nu med tom title och tomt infoWindow
+			addLocation(latlng);
+		});
+
+		/*
+			Söka på plats i vårt sökfält centrerar den rörliga markören på platsen
+		 */
+		$('#geocoding_form').on('submit', function(e) {
+			e.preventDefault();
+
+			var address = $('#geocoding_form_address').val();
+			findByForm(address);
+
+		});
+
+		/*
+			Klick på .delete-marker tar bort en markör
+		 */
+		$(document).on('click', '.delete-marker', function(e) {
+			e.preventDefault();
+			var marker_id = $(this).attr('data-target');
+			if(confirm("Radera resmål?")) {
+				removeLocationAndMarker(marker_id);
+			}
+		});
+
+		/*
+			När man checkar i eller ur rutan för rundtur ändras vår resrutt
+		 */
+		$(document).on('change', '#round-trip', function(e) {
+			// om rutan är ikryssad
+			if($(this).prop('checked') === true) {
+				// knyt ihop våra respunkter
+				setRoundTrip();
+			}
+			else {
+				// ta bort sträcket som knyter ihop resan
+				setOneWayTrip();
+			}
+		});	
+	
+	});
+
+});
+/**
+ * Locations innehåller allt som har med att hämta kartinfo från Google Maps geocode-API att göra
+ */
+
+function addLocation(latlng) {
+	geocoder.geocode({'location': latlng}, geocb);
+
+	function geocb(results, status) {
+
+		if(status !== google.maps.GeocoderStatus.OK) {
+			console.error(status);
+			return false;
+		}
+
+		if(results[2]) {
+			var address = results[2].formatted_address;
+			var marker_id = addStaticMarker(latlng, address);
+			addToPlacesList(address, marker_id);
+		} 
+		else {
+	        alert('Ingen address hittad!');
+		}
+	}
+}
+
+function updateLocation(infowindow, latlng, marker_id) {
+	geocoder.geocode({'location': latlng}, geocb);
+	var marker;
+	for(i in markers) {
+		console.log(marker_id+'/'+i);
+		if(Number(marker_id) === Number(i)) {
+			marker = markers[i];
+		}
 	}
 
-	GMaps.geocode(opt);
->>>>>>> 70fb7d2d8a8ac144d22b5df0fa8eef8f70a19558
+	function geocb(results, status) {
 
-	marker.addListener('click', function() {
-		infowindow.open(marker.get('map'), marker);
-	});
+		if(status !== google.maps.GeocoderStatus.OK) {
+			console.error(status);
+			return false;
+		}
+
+		if(results[2]) {
+			var address = results[2].formatted_address;
+			//infowindow.setContent(createStaticMarkerContent(marker, marker_id, address));
+			$('#'+marker_id+'_address').text(address);
+			updatePlaceList(marker_id, address);
+		} 
+		else {
+	        alert('Ingen address hittad!');
+		}
+	}
 }
+
+function removeLocationAndMarker(marker_id) {
+	
+	$('.place[data-target="'+marker_id+'"]').fadeOut(200, function() {
+		$(this).remove();
+	});
+	markers[marker_id].setMap(null);
+	delete markers[marker_id];
+	updatePath(markers);
+	updateMarkerTitles(markers);
+}
+/**
+ * Kartans utseende
+ */
+
 var styles = [
     {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#e9e9e9"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
+        "featureType": "landscape.natural",
         "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 29
-            },
-            {
-                "weight": 0.2
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 18
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#dedede"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "elementType": "labels.text.stroke",
         "stylers": [
             {
                 "visibility": "on"
             },
             {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
+                "color": "#e0efef"
             }
         ]
     },
     {
-        "elementType": "labels.text.fill",
+        "featureType": "poi",
+        "elementType": "geometry.fill",
         "stylers": [
             {
-                "saturation": 36
+                "visibility": "on"
             },
             {
-                "color": "#333333"
+                "hue": "#1900ff"
             },
             {
-                "lightness": 40
+                "color": "#c0e8e8"
             }
         ]
     },
     {
-        "elementType": "labels.icon",
+        "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "lightness": 100
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "labels",
         "stylers": [
             {
                 "visibility": "off"
@@ -268,42 +299,325 @@ var styles = [
         ]
     },
     {
-        "featureType": "transit",
+        "featureType": "transit.line",
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#f2f2f2"
+                "visibility": "on"
             },
             {
-                "lightness": 19
+                "lightness": 700
             }
         ]
     },
     {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
+        "featureType": "water",
+        "elementType": "all",
         "stylers": [
             {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 17
-            },
-            {
-                "weight": 1.2
+                "color": "#7dcdcd"
             }
         ]
     }
 ];
+/**
+ * Här ligger allt som har med vår rörliga markör att göra
+ */
+
+function setMovableMarker(currentLatLng) {
+
+	var infowindow;
+	
+	if(movable_marker) movable_marker.setMap(null);
+	
+	movable_marker = new google.maps.Marker({
+		position: currentLatLng, // var på kartan markören ska befinna sig
+		map: map, // vilket kartobjekt som markören ska vara på
+		draggable: true, // man kan dra och släppa markören
+		icon: personMarker // vi anger vilken markör som ska visas
+	});
+
+	geocoder.geocode({'location': currentLatLng}, function(results, status) {
+
+		if(status !== google.maps.GeocoderStatus.OK) {
+			console.error(status);
+			movable_marker.setMap(null);
+			return false;
+		}
+
+		if(results[2]) {
+			var address = results[2].formatted_address;
+			infowindow = addInfoWindow(movable_marker, createMovableMarkerBtn(address));
+			infowindow.open(map, movable_marker);
+		} 
+		else {
+	        alert('Ingen address hittad!');
+	        movable_marker.setMap(null);
+		}
+
+	});
+
+	google.maps.event.addListener(movable_marker, "dragend", function(e){
+		
+		geocoder.geocode({'location': e.latLng}, function(results, status) {
+
+			if(status !== google.maps.GeocoderStatus.OK) {
+				console.error(status);
+				return false;
+			}
+
+			if(results[2]) {
+				var address = results[2].formatted_address;
+				infowindow.setContent(createMovableMarkerBtn(address));
+			} 
+			else {
+		        alert('Ingen address hittad!');
+			}
+
+		});
+
+	});
+
+
+}
+
+function createMovableMarkerBtn(address) {
+	var output = '';
+
+	output += '<p><strong>Hittad adress</strong><br />'+address+'</p>';
+	//if(!trip_ended) {
+		output += '<a href="#" class="btn btn-primary btn-sm btn-block" id="place_marker">Placera markör</a>';
+	//}
+
+	return output;
+}
+/**
+ * Här ligger allt som har att göra med vår sträckning av reserutten
+ */
+
+function addToPath(latlng) {
+
+	if(round_trip) {
+		path_coordinates.pop();
+	}
+
+	path_coordinates.push({'lat': latlng.lat(), 'lng': latlng.lng()});
+
+	if(round_trip) {
+		path_coordinates.push({'lat': markers[0].getPosition().lat(), 'lng': markers[0].getPosition().lng()})
+	}
+	
+	if(path) path.setMap(null);
+
+	createPath(path_coordinates);
+
+}
+
+function updatePath(markers) {
+
+	path_coordinates = [];
+	bounds = new google.maps.LatLngBounds();
+	for(i in markers) {
+		latlng = new google.maps.LatLng(markers[i].getPosition().lat(), markers[i].getPosition().lng());
+		path_coordinates.push(latlng);
+		bounds.extend(latlng);
+	}
+
+	if(round_trip) {
+		path_coordinates.push({'lat': markers[0].getPosition().lat(), 'lng': markers[0].getPosition().lng()})
+	}
+
+	if(path) path.setMap(null);
+
+	createPath(path_coordinates);
+
+}
+
+function createPath(path_coordinates) {
+	path = new google.maps.Polyline({
+		path: path_coordinates,
+		geodesic: true,
+		strokeColor: '#FF0000',
+		strokeOpacity: .5,
+		strokeWeight: 2
+	});
+
+	path.setMap(map);
+}
+/**
+ * Places List är listan i vänsterspalten
+ */
+
+function addToPlacesList(address, marker_id) {
+	
+	//var marker_id = (markers.length-1);
+
+	var output = '';
+
+	output += '<div class="col-xs-12 place" data-content="'+marker_id+'">';
+	output += '<h5 class="text-white">'+address+'</h5>';
+	output += '<p class="text-white arrival_date_wrap"><i class="fa fa-plane fa-fw fa-rotate-90"></i><span class="arrival_date"></span></p>';
+	output += '<p class="text-white departure_date_wrap"><i class="fa fa-plane fa-fw"></i><span class="departure_date"></span></p>';
+	output += '</div>';
+
+	if(marker_id === 0) { 
+		$('#places-list-start').append(output);
+		$('#places-list-end').append(output);
+	}
+	else {
+		$('#places-list').append(output);
+	}
+	
+}
+
+function updatePlaceList(marker_id, address) {
+	$('div[data-content="'+marker_id+'"] h5').text(address);
+}
+/**
+ * Här ligger allt som har att göra med sökformuläret
+ */
+
+function findByForm(address) {
+    geocoder.geocode( { 'address': address}, function(results, status) {
+		if (status !== google.maps.GeocoderStatus.OK) {
+			console.error(status);
+			return false;
+		}
+		
+		var latlng = results[0].geometry.location;
+		map.setCenter(latlng);
+		setMovableMarker(latlng);
+      
+    });
+}
+/**
+ * Här ligger allt som har att göra med de utplacerade statiska markörerna
+ */
+
+function addStaticMarker(latlng, infoWindowContent) {
+
+	// Skapa ett nytt markörobjekt
+	var marker = new google.maps.Marker({
+		position: latlng, // var på kartan markören ska befinna sig
+		map: map, // vilket kartobjekt som markören ska vara på
+		icon: standardMarker, // vi anger vilken markör som ska visas
+		animation: google.maps.Animation.DROP,
+		draggable: true
+	});
+
+	markers.push(marker);
+	var marker_id = (markers.length-1);
+
+	updateMarkerTitles(markers);
+
+	// Funktion för att lägga till ett infofönster när man klickar på en markör
+	var infowindow = addInfoWindow(marker, createStaticMarkerContent(marker, marker_id, infoWindowContent));
+	addToPath(latlng);
+	bounds.extend(latlng);
+	if(markers.length > 1) {
+		map.fitBounds(bounds);
+	}
+
+	marker.addListener('dragend',function(e) {
+        updatePath(markers);
+        updateLocation(infowindow, e.latLng, marker_id);
+    });
+
+    marker.addListener('drag',function(e) {
+        path.setOptions({strokeOpacity: .2});
+    });
+
+    return marker_id;
+
+}
+
+/*
+	Funktionen med vilken man skapar ett infofönster som man få fram när man klickar på en markör
+ */
+function addInfoWindow(marker, infoWindowContent) {
+
+	// Skapa ett nytt infoWindow-objekt
+	var infowindow = new google.maps.InfoWindow({
+		content: infoWindowContent // Det innehåll vi skickar in i funktionen som "infoWindowContent" blir dess innehåll
+	});
+	// Sätt en eventlyssnare på markören så den vet att den ska visa sin infowindow på klick
+	marker.addListener('click', function() {
+		infowindow.open(marker.get('map'), marker);
+	});
+
+	return infowindow;
+}
+
+function createStaticMarkerContent(marker, marker_id, address) {
+	var output = '';
+
+	output += '<div class="static-marker-content">';
+	output += '<h4 id="'+marker_id+'_address">'+address+'</h4>';
+	output += '<form class="form">';
+
+	if(marker === markers[0]) {
+		output += '<div class="form-group">';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate startdate">';
+		output += '</div>';
+		output += '<div class="form-group">';
+		output += '<label><input type="checkbox" id="round-trip" value="1" ';
+		if(round_trip) {
+			output += ' checked="checked"';
+		}
+		output +='> Rundresa</label>'; 
+		output += '</div>';
+		output += '<div class="form-group">';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker maxDate enddate" id="roundtrip_arrival_date">';
+		output += '</div>';	
+	}
+
+	if(marker !== markers[0]) {
+		output += '<div class="form-group">';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate">';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate">';
+		output += '<a href="#" class="delete-marker" data-target="'+marker_id+'">Radera markör</a>';
+		output += '</div>';
+	}
+
+	output += '</form>';
+	output += '</div>';
+
+	return output;
+}
+
+function setRoundTrip() {
+
+	var latlng = markers[0].getPosition();
+	addToPath(latlng);
+	round_trip = true;
+	$('input#roundtrip_arrival_date').slideDown(500, function() {
+		$(this).addClass('visible');	
+	});
+	$('#places-list-end').slideDown(500, function() {
+		$(this).addClass('visible');	
+	});
+
+}
+
+function setOneWayTrip() {
+
+	round_trip = false;
+	updatePath(markers);
+	$('input#roundtrip_arrival_date').slideUp(200, function() {
+		$(this).removeClass('visible');	
+	});
+	$('#places-list-end').slideUp(200, function() {
+		$(this).removeClass('visible');	
+	});
+
+}
+
+function updateMarkerTitles(markers) {
+	var no = 0;
+
+	for(var i in markers) {
+		var title = no === 0 ? 'Resan startar här' : 'Resmål nummer '+no;
+		markers[i].setTitle(title);
+		no += 1;
+	}
+}

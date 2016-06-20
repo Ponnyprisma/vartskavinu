@@ -1,31 +1,41 @@
-	<p id="slider-btn" class="pull-left visible-xs">
-		<button type="button" class="btn btn-primary btn-lg" data-toggle="offcanvas">SLIDE</button>
-	</p>
-	<section class="row row-offcanvas row-offcanvas-left">
-		<aside id="sidebar" class="col-xs-12 col-sm-3 sidebar-offcanvas">
-			<div>
-				<h1>Vær ska vi no lille do?</h1>
-				<div id="address">
-					<form method="post" id="geocoding_form">
-						<label for="address">Adress</label>	
-						<div class="input">
-							<input type="text" id="address_field" name ="address">
-							<input type="submit" class="btn" value="search">
-						</div>
-					</form>
-				</div>
-				<div id="toggle"><p>Läsa in destinationer</p></div>
-				<!--<p>Här ska all info om destinationen/aktiviteten skrivas ut! 
-				Lipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>-->
-				<div id="places"></div>
+<p id="slider-btn" class="pull-left visible-xs">
+	<button type="button" class="btn btn-primary btn-lg" data-toggle="offcanvas">Visa/dölj</button>
+</p>
+
+<div class="row row-offcanvas row-offcanvas-left">
+
+	<div id="sidebar" class="col-xs-12 col-sm-3 sidebar-offcanvas">
+
+		<div class="row">
+
+			<div class="col-xs-12">
+		
+				<h1 class="text-white">Vart ska vi nu?</h1>
+				
+				<form method="post" class="form" id="geocoding_form">
+					<div class="input-group">
+						<input type="text" class="form-control" id="geocoding_form_address" name="geocoding_form_address" placeholder="Sök plats">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Sök</button>
+						</span>
+					</div><!-- /input-group -->
+				</form>
+
 			</div>
-		</aside>
-		<article class="col-xs-12 col-sm-9 containerMap">
-			<div id="gmap"></div>
-		</article>
-	</section><!--row-offcanvas-->
+
+		</div>
+
+		<div class="row text-white" id="places-list-start">
+		</div>
+		<div class="row text-white" id="places-list">
+		</div>
+		<div class="row text-white" id="places-list-end">
+		</div>
+
+	</div>
+
+	<div class="col-xs-12 col-sm-9" id="gmap-wrap">
+		<div id="gmap"></div>
+	</div>
+
+</div> <!--row-offcanvas-->
