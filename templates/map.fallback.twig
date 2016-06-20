@@ -1,0 +1,47 @@
+<p id="slider-btn" class="pull-left visible-xs">
+	<button type="button" class="btn btn-primary btn-lg" data-toggle="offcanvas">Visa/dölj</button>
+</p>
+
+<div class="row row-offcanvas row-offcanvas-left">
+
+	<div id="sidebar" class="col-xs-12 col-sm-3 sidebar-offcanvas">
+
+		<div class="row">
+
+			<div class="col-xs-12">
+		
+				<h1 class="text-white">Vart ska vi nu?</h1>
+				
+				<form method="post" class="form" id="geocoding_form">
+					<div class="input-group">
+						<input type="text" class="form-control" id="geocoding_form_address" name="geocoding_form_address" placeholder="Sök plats">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Sök</button>
+						</span>
+					</div><!-- /input-group -->
+				</form>
+
+			</div>
+
+		</div>
+
+		<div class="row text-white" id="places-list-start">
+		</div>
+		<div class="row text-white" id="places-list">
+		</div>
+		<div class="row text-white" id="places-list-end">
+		</div>
+
+		<span class="text-white">
+			{% if session %}
+				Sessions-ID: {{session}}
+			{% endif %}
+		</span>
+
+	</div>
+
+	<div class="col-xs-12 col-sm-9" id="gmap-wrap">
+		<div id="gmap"></div>
+	</div>
+
+</div> <!--row-offcanvas-->

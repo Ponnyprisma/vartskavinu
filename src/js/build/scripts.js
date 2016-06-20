@@ -80,6 +80,9 @@ var personMarker = new google.maps.MarkerImage("/px/marker_person-44x60-2x.png",
  */
 $(document).ready(function(){
 
+	getAllMarkersFromDB();
+	getRoundTripFromDB();
+
 	/*
 		När vårt element med Id "gmap" existerar
 	 */
@@ -160,6 +163,7 @@ $(document).ready(function(){
 			var marker_id = $(this).attr('data-target');
 			if(confirm("Radera resmål?")) {
 				removeLocationAndMarker(marker_id);
+				deleteMarkerFromDB(marker_id);
 			}
 		});
 
@@ -176,6 +180,8 @@ $(document).ready(function(){
 				// ta bort sträcket som knyter ihop resan
 				setOneWayTrip();
 			}
+
+			changeRoundTripInDB();
 		});	
 	
 	});
@@ -199,10 +205,13 @@ function addLocation(latlng) {
 			var address = results[2].formatted_address;
 			var marker_id = addStaticMarker(latlng, address);
 			addToPlacesList(address, marker_id);
+			addMarkerToDB(marker_id, latlng, address);
 		} 
 		else {
 	        alert('Ingen address hittad!');
 		}
+
+		console.log(markers);
 	}
 }
 
@@ -210,7 +219,6 @@ function updateLocation(infowindow, latlng, marker_id) {
 	geocoder.geocode({'location': latlng}, geocb);
 	var marker;
 	for(i in markers) {
-		console.log(marker_id+'/'+i);
 		if(Number(marker_id) === Number(i)) {
 			marker = markers[i];
 		}
@@ -228,6 +236,7 @@ function updateLocation(infowindow, latlng, marker_id) {
 			//infowindow.setContent(createStaticMarkerContent(marker, marker_id, address));
 			$('#'+marker_id+'_address').text(address);
 			updatePlaceList(marker_id, address);
+			updateMarkerInDB(marker_id, latlng, address);
 		} 
 		else {
 	        alert('Ingen address hittad!');
@@ -507,6 +516,9 @@ function addStaticMarker(latlng, infoWindowContent) {
 
 	markers.push(marker);
 	var marker_id = (markers.length-1);
+	if(marker_id === 0) {
+		getRoundTripFromDB();
+	}
 
 	updateMarkerTitles(markers);
 
@@ -621,3 +633,105 @@ function updateMarkerTitles(markers) {
 		no += 1;
 	}
 }
+
+function addMarkerToDB(marker_id, latlng, address) {
+
+	markerData = {
+		'marker_id': marker_id,
+		'lat': latlng.lat(),
+		'lng': latlng.lng(),
+		'address': address
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/addmarker/',
+		success: function(e){
+			console.log(e);
+		}	
+	});
+
+}
+
+function deleteMarkerFromDB(marker_id) {
+
+	markerData = {
+		'marker_id': marker_id
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/deletemarker/',
+		success: function(e){
+			console.log(e);
+		}	
+	});
+
+}
+
+function updateMarkerInDB(marker_id, latlng, address) {
+
+	markerData = {
+		'marker_id': marker_id,
+		'lat': latlng.lat(),
+		'lng': latlng.lng(),
+		'address': address
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/updatemarker/',
+		success: function(e){
+			console.log(e);
+		}	
+	});
+
+}
+
+function getAllMarkersFromDB() {
+	$.ajax({
+		type: "POST",
+		url: '/map/getallmarkers/',
+		dataType: 'json',
+		success: function(markers_from_db){
+			for(var i in markers_from_db) {
+				latlng = new google.maps.LatLng(markers_from_db[i].lat, markers_from_db[i].lng);
+				addLocation(latlng);
+			}
+			console.log(markers_from_db);
+		}	
+	});
+}
+
+function changeRoundTripInDB() {
+	$.ajax({
+		type: "POST",
+		url: '/map/changeroundtrip/',
+		success: function(e){
+			console.log(e);
+		}	
+	});
+}
+
+function getRoundTripFromDB() {
+	$.ajax({
+		type: "POST",
+		url: '/map/getroundtrip/',
+		dataType: 'json',
+		success: function(e){
+			if(e.round_trip === '1') {
+				setRoundTrip();
+			}
+			else {
+				setOneWayTrip();
+			}
+		}	
+	});
+}
+
+
+
+

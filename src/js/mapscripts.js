@@ -30,6 +30,9 @@ var personMarker = new google.maps.MarkerImage("/px/marker_person-44x60-2x.png",
  */
 $(document).ready(function(){
 
+	getAllMarkersFromDB();
+	getRoundTripFromDB();
+
 	/*
 		När vårt element med Id "gmap" existerar
 	 */
@@ -110,6 +113,7 @@ $(document).ready(function(){
 			var marker_id = $(this).attr('data-target');
 			if(confirm("Radera resmål?")) {
 				removeLocationAndMarker(marker_id);
+				deleteMarkerFromDB(marker_id);
 			}
 		});
 
@@ -126,6 +130,8 @@ $(document).ready(function(){
 				// ta bort sträcket som knyter ihop resan
 				setOneWayTrip();
 			}
+
+			changeRoundTripInDB();
 		});	
 	
 	});

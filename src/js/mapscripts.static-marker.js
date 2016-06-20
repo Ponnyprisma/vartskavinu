@@ -15,6 +15,9 @@ function addStaticMarker(latlng, infoWindowContent) {
 
 	markers.push(marker);
 	var marker_id = (markers.length-1);
+	if(marker_id === 0) {
+		getRoundTripFromDB();
+	}
 
 	updateMarkerTitles(markers);
 
@@ -129,3 +132,105 @@ function updateMarkerTitles(markers) {
 		no += 1;
 	}
 }
+
+function addMarkerToDB(marker_id, latlng, address) {
+
+	markerData = {
+		'marker_id': marker_id,
+		'lat': latlng.lat(),
+		'lng': latlng.lng(),
+		'address': address
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/addmarker/',
+		success: function(e){
+			console.log(e);
+		}	
+	});
+
+}
+
+function deleteMarkerFromDB(marker_id) {
+
+	markerData = {
+		'marker_id': marker_id
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/deletemarker/',
+		success: function(e){
+			console.log(e);
+		}	
+	});
+
+}
+
+function updateMarkerInDB(marker_id, latlng, address) {
+
+	markerData = {
+		'marker_id': marker_id,
+		'lat': latlng.lat(),
+		'lng': latlng.lng(),
+		'address': address
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/updatemarker/',
+		success: function(e){
+			console.log(e);
+		}	
+	});
+
+}
+
+function getAllMarkersFromDB() {
+	$.ajax({
+		type: "POST",
+		url: '/map/getallmarkers/',
+		dataType: 'json',
+		success: function(markers_from_db){
+			for(var i in markers_from_db) {
+				latlng = new google.maps.LatLng(markers_from_db[i].lat, markers_from_db[i].lng);
+				addLocation(latlng);
+			}
+			console.log(markers_from_db);
+		}	
+	});
+}
+
+function changeRoundTripInDB() {
+	$.ajax({
+		type: "POST",
+		url: '/map/changeroundtrip/',
+		success: function(e){
+			console.log(e);
+		}	
+	});
+}
+
+function getRoundTripFromDB() {
+	$.ajax({
+		type: "POST",
+		url: '/map/getroundtrip/',
+		dataType: 'json',
+		success: function(e){
+			if(e.round_trip === '1') {
+				setRoundTrip();
+			}
+			else {
+				setOneWayTrip();
+			}
+		}	
+	});
+}
+
+
+
+
