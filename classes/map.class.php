@@ -3,7 +3,6 @@
 	class Map {
 
 		static public function fallback($input) {
-
 			$clean_input = DB::clean($input);
 			$_SESSION['lilledo'] = self::checkSession();
 
@@ -77,7 +76,7 @@
 		public static function getAllMarkers() {
 			$map_id = self::checkSession();
 
-			$sql = "SELECT marker_id, address, lat, lng FROM markers WHERE map_id = $map_id ORDER BY marker_id ASC";
+			$sql = "SELECT * FROM markers WHERE map_id = $map_id ORDER BY marker_id ASC";
 			$markers = DB::query($sql);
 			echo json_encode($markers);
 			die;
@@ -107,6 +106,43 @@
 
 			$sql = "UPDATE maps SET round_trip = $round_trip WHERE id = $map_id";
 			DB::query($sql);
+			die;
+		}
+
+		public static function setDate($post_data) {
+			$clean_post_data = DB::clean($post_data);
+
+			$map_id = self::checkSession();
+			$marker_id = $clean_post_data['marker_id'];
+			$type_of_trip = $clean_post_data['type_of_trip'];
+			$date = $clean_post_data['date'];
+
+			$sql = "UPDATE markers SET $type_of_trip = '$date' WHERE map_id = $map_id AND marker_id = $marker_id";
+			DB::query($sql);
+			echo $sql;
+			die;
+
+		}
+
+		public static function login($post_data) {
+			$clean_post_data = DB::clean($post_data);
+
+			$sql = "SELECT id FROM maps WHERE id = ".$clean_post_data['id'];
+			$data = DB::query($sql, true);
+			if($data) {
+				$_SESSION['lilledo'] = $data['id'];
+				$output = ['redirect_url' => '/map/'];
+			}
+
+	 		return $output;
+			die;
+
+		}
+
+		public static function logout() {
+			session_destroy();
+			$output = ['redirect_url' => '/'];
+	 		return $output;
 			die;
 		}
 

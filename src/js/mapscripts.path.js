@@ -2,7 +2,9 @@
  * Här ligger allt som har att göra med vår sträckning av reserutten
  */
 
-function addToPath(latlng) {
+function addToPath(latlng, marker_id) {
+
+	if(typeof marker_id === 'undefined') return;
 
 	if(round_trip) {
 		path_coordinates.pop();
@@ -44,9 +46,9 @@ function createPath(path_coordinates) {
 	path = new google.maps.Polyline({
 		path: path_coordinates,
 		geodesic: true,
-		strokeColor: '#FF0000',
+		strokeColor: '#ffcc00',
 		strokeOpacity: .5,
-		strokeWeight: 2
+		strokeWeight: 10
 	});
 
 	path.setMap(map);

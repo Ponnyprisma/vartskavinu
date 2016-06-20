@@ -21,8 +21,6 @@ function addLocation(latlng) {
 		else {
 	        alert('Ingen address hittad!');
 		}
-
-		console.log(markers);
 	}
 }
 

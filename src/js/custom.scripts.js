@@ -16,7 +16,10 @@ $(document).ready(function() {
 			maxDate: newMaxDate,
 			dateFormat: "yy-mm-dd",
 			onClose: function( selectedDate ) {
-				addDateToList($(this), selectedDate);
+				var this_marker_id = $(this).attr('data-target');
+				var this_marker_name = $(this).attr('name');
+				addDateToList(this_marker_id, this_marker_name, selectedDate);
+				setDateInDB(this_marker_id, this_marker_name, selectedDate);
       			if ($(this).hasClass('minDate')) {
 					newMinDate = selectedDate;
       			}
@@ -34,7 +37,10 @@ $(document).ready(function() {
 			maxDate: newMaxDate,
 			dateFormat: "yy-mm-dd",
 			onClose: function( selectedDate ) {
-				addDateToList($(this), selectedDate);
+				var this_marker_id = $(this).attr('data-target');
+				var this_marker_name = $(this).attr('name');
+				addDateToList(this_marker_id, this_marker_name, selectedDate);
+				setDateInDB(this_marker_id, this_marker_name, selectedDate);
 				newMinDate = selectedDate === '' ? new Date() : selectedDate;
 				$('.datepicker.minDate').not('.startdate').datepicker('option', 'minDate', newMinDate);
       		}
@@ -43,8 +49,7 @@ $(document).ready(function() {
 
 });
 
-function addDateToList(thisMarker, selectedDate) {
-	var this_marker_id = thisMarker.attr('data-target');
-	var this_marker_name = thisMarker.attr('name');
+function addDateToList(this_marker_id, this_marker_name, selectedDate) {	
 	$('div[data-content="'+this_marker_id+'"]').find('.'+this_marker_name).text(selectedDate);
 }
+
