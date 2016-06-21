@@ -77,8 +77,8 @@ var round_trip = false;
 /* objekt som hjälper till så att alla markörer syns på kartan när en ny markör genereras */
 var bounds;
 /* variabler för våra hemmagjorda markörikoner */
-var standardMarker = new google.maps.MarkerImage("/px/marker_member-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
-var personMarker = new google.maps.MarkerImage("/px/marker_person-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
+var standardMarker = new google.maps.MarkerImage("/px/staticmarker.png", null, null, null, new google.maps.Size(44,60));
+var personMarker = new google.maps.MarkerImage("/px/marker.png", null, null, null, new google.maps.Size(44,60));
 
 getRoundTripFromDB();
 
@@ -365,7 +365,6 @@ function updateLocation(infowindow, latlng, marker_id) {
 
 		if(results[2]) {
 			var address = results[2].formatted_address;
-			//infowindow.setContent(createStaticMarkerContent(marker, marker_id, address));
 			$('#'+marker_id+'_address').text(address);
 			updatePlaceList(marker_id, address);
 			updateMarkerInDB(marker_id, latlng, address);
@@ -378,11 +377,12 @@ function updateLocation(infowindow, latlng, marker_id) {
 
 function removeLocationAndMarker(marker_id) {
 	
-	$('.place[data-target="'+marker_id+'"]').fadeOut(200, function() {
+	$('.place[data-content="'+marker_id+'"]').fadeOut(200, function() {
 		$(this).remove();
 	});
 	markers[marker_id].setMap(null);
 	delete markers[marker_id];
+	console.log(markers);
 	updatePath(markers);
 	updateMarkerTitles(markers);
 }
@@ -644,7 +644,7 @@ function createMovableMarkerBtn(address) {
 
 	output += '<p><strong>Hittad adress</strong><br />'+address+'</p>';
 	//if(!trip_ended) {
-		output += '<a href="#" class="btn btn-primary btn-sm btn-block" id="place_marker">Placera markör</a>';
+		output += '<a href="#" class="btn btn-ghost dark btn-sm btn-block" id="place_marker">Placera markör</a>';
 	//}
 
 	return output;
@@ -710,14 +710,12 @@ function createPath(path_coordinates) {
 
 function addToPlacesList(address, marker_id) {
 	
-	//var marker_id = (markers.length-1);
-
 	var output = '';
 
-	output += '<div class="col-xs-12 place" data-content="'+marker_id+'">';
+	output += '<div class="col-xs-12 place padding-sm-bottom" data-content="'+marker_id+'">';
 	output += '<h5 class="text-white">'+address+'</h5>';
-	output += '<p class="text-white arrival_date_wrap"><i class="fa fa-plane fa-fw fa-rotate-90"></i><span class="arrival_date"></span></p>';
-	output += '<p class="text-white departure_date_wrap"><i class="fa fa-plane fa-fw"></i><span class="departure_date"></span></p>';
+	output += '<p class="trip-header text-white arrival_date_wrap"><span class="text-light"><i class="fa fa-plane fa-fw fa-rotate-90 text-light"></i></span><span class="arrival_date"></span></p>';
+	output += '<p class="trip-header text-white departure_date_wrap"><span class="text-light"><i class="fa fa-plane fa-fw text-light"></i></span><span class="departure_date"></span></p>';
 	output += '</div>';
 
 	if(marker_id === 0) { 
@@ -768,8 +766,8 @@ function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, dep
 		draggable: true
 	});
 
-	markers.push(marker);
-	marker_id = typeof marker_id !== 'undefined' ? marker_id : (markers.length-1);
+	marker_id = typeof marker_id !== 'undefined' ? marker_id : (markers.length);
+	markers[marker_id] = marker;
 
 	updateMarkerTitles(markers);
 
@@ -816,24 +814,32 @@ function createStaticMarkerContent(marker, marker_id, address, arrival_date, dep
 	var output = '';
 
 	output += '<div class="static-marker-content">';
-	output += '<h4 id="'+marker_id+'_address">'+address+'</h4>';
+	output += '<h4 id="'+marker_id+'_address" class="text-light">'+address+'</h4>';
 	output += '<form class="form">';
 
 	if(marker_id === 0) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate startdate" value="'+departure_date+'">';
+		output += '<label class="text-light"><i class="fa fa-plane fa-fw text-light"></i> Departure</label>';
 		output += '</div>';
 		output += '<div class="form-group">';
-		output += '<label><input type="checkbox" id="round-trip" value="1" ';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate startdate margin-md-bottom" value="'+departure_date+'">';
+		output += '</div>';
+		output += '<div class="form-group">';
+		output += '<label class="text-light"><input type="checkbox" id="round-trip" value="1" ';
 		if(round_trip) {
 			output += ' checked="checked"';
 		}
 		output +='> Rundresa</label>'; 
 		output += '</div>';
-		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker maxDate enddate';
+		output += '<div class="form-group';
 		if(round_trip) {
 			output += ' visible';
+		}
+		output += '" id="arrival-wrap">';
+		output += '<label class="text-light"><i class="fa fa-plane fa-fw fa-rotate-90 text-light"></i> Arrival</label>';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker maxDate enddate margin-md-bottom';
+		if(round_trip) {
+			//output += ' visible';
 		}
 		output += '" id="roundtrip_arrival_date" value="'+arrival_date+'">';
 		output += '</div>';	
@@ -841,9 +847,11 @@ function createStaticMarkerContent(marker, marker_id, address, arrival_date, dep
 
 	if(marker_id !== 0) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate" value="'+arrival_date+'">';
-		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate" value="'+departure_date+'">';
-		output += '<a href="#" class="delete-marker" data-target="'+marker_id+'">Radera markör</a>';
+		output += '<label class="text-light"><i class="fa fa-plane fa-fw fa-rotate-90 text-light"></i> Arrival</label>';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate margin-md-bottom" value="'+arrival_date+'">';
+		output += '<label class="text-light"><i class="fa fa-plane fa-fw text-light"></i> Departure</label>';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate margin-md-bottom" value="'+departure_date+'">';
+		output += '<a href="#" class="delete-marker text-light pull-right padding-sm-bottom" data-target="'+marker_id+'"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></a>';
 		output += '</div>';
 	}
 
@@ -858,7 +866,7 @@ function setRoundTrip() {
 	var latlng = markers[0].getPosition();
 	addToPath(latlng);
 	round_trip = true;
-	$('input#roundtrip_arrival_date').slideDown(500, function() {
+	$('#arrival-wrap').slideDown(500, function() {
 		$(this).addClass('visible');	
 	});
 	$('#places-list-end').slideDown(500, function() {
@@ -871,7 +879,7 @@ function setOneWayTrip() {
 
 	round_trip = false;
 	updatePath(markers);
-	$('input#roundtrip_arrival_date').slideUp(200, function() {
+	$('#arrival-wrap').slideUp(200, function() {
 		$(this).removeClass('visible');	
 	});
 	$('#places-list-end').slideUp(200, function() {

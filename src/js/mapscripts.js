@@ -22,8 +22,8 @@ var round_trip = false;
 /* objekt som hjälper till så att alla markörer syns på kartan när en ny markör genereras */
 var bounds;
 /* variabler för våra hemmagjorda markörikoner */
-var standardMarker = new google.maps.MarkerImage("/px/marker_member-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
-var personMarker = new google.maps.MarkerImage("/px/marker_person-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
+var standardMarker = new google.maps.MarkerImage("/px/staticmarker.png", null, null, null, new google.maps.Size(44,60));
+var personMarker = new google.maps.MarkerImage("/px/marker.png", null, null, null, new google.maps.Size(44,60));
 
 getRoundTripFromDB();
 

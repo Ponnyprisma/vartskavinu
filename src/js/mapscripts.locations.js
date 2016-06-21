@@ -42,7 +42,6 @@ function updateLocation(infowindow, latlng, marker_id) {
 
 		if(results[2]) {
 			var address = results[2].formatted_address;
-			//infowindow.setContent(createStaticMarkerContent(marker, marker_id, address));
 			$('#'+marker_id+'_address').text(address);
 			updatePlaceList(marker_id, address);
 			updateMarkerInDB(marker_id, latlng, address);
@@ -55,11 +54,12 @@ function updateLocation(infowindow, latlng, marker_id) {
 
 function removeLocationAndMarker(marker_id) {
 	
-	$('.place[data-target="'+marker_id+'"]').fadeOut(200, function() {
+	$('.place[data-content="'+marker_id+'"]').fadeOut(200, function() {
 		$(this).remove();
 	});
 	markers[marker_id].setMap(null);
 	delete markers[marker_id];
+	console.log(markers);
 	updatePath(markers);
 	updateMarkerTitles(markers);
 }

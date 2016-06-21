@@ -16,8 +16,8 @@ function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, dep
 		draggable: true
 	});
 
-	markers.push(marker);
-	marker_id = typeof marker_id !== 'undefined' ? marker_id : (markers.length-1);
+	marker_id = typeof marker_id !== 'undefined' ? marker_id : (markers.length);
+	markers[marker_id] = marker;
 
 	updateMarkerTitles(markers);
 
@@ -64,24 +64,32 @@ function createStaticMarkerContent(marker, marker_id, address, arrival_date, dep
 	var output = '';
 
 	output += '<div class="static-marker-content">';
-	output += '<h4 id="'+marker_id+'_address">'+address+'</h4>';
+	output += '<h4 id="'+marker_id+'_address" class="text-light">'+address+'</h4>';
 	output += '<form class="form">';
 
 	if(marker_id === 0) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate startdate" value="'+departure_date+'">';
+		output += '<label class="text-light"><i class="fa fa-plane fa-fw text-light"></i> Departure</label>';
 		output += '</div>';
 		output += '<div class="form-group">';
-		output += '<label><input type="checkbox" id="round-trip" value="1" ';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate startdate margin-md-bottom" value="'+departure_date+'">';
+		output += '</div>';
+		output += '<div class="form-group">';
+		output += '<label class="text-light"><input type="checkbox" id="round-trip" value="1" ';
 		if(round_trip) {
 			output += ' checked="checked"';
 		}
 		output +='> Rundresa</label>'; 
 		output += '</div>';
-		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker maxDate enddate';
+		output += '<div class="form-group';
 		if(round_trip) {
 			output += ' visible';
+		}
+		output += '" id="arrival-wrap">';
+		output += '<label class="text-light"><i class="fa fa-plane fa-fw fa-rotate-90 text-light"></i> Arrival</label>';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker maxDate enddate margin-md-bottom';
+		if(round_trip) {
+			//output += ' visible';
 		}
 		output += '" id="roundtrip_arrival_date" value="'+arrival_date+'">';
 		output += '</div>';	
@@ -89,9 +97,11 @@ function createStaticMarkerContent(marker, marker_id, address, arrival_date, dep
 
 	if(marker_id !== 0) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate" value="'+arrival_date+'">';
-		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate" value="'+departure_date+'">';
-		output += '<a href="#" class="delete-marker" data-target="'+marker_id+'">Radera markör</a>';
+		output += '<label class="text-light"><i class="fa fa-plane fa-fw fa-rotate-90 text-light"></i> Arrival</label>';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate margin-md-bottom" value="'+arrival_date+'">';
+		output += '<label class="text-light"><i class="fa fa-plane fa-fw text-light"></i> Departure</label>';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate margin-md-bottom" value="'+departure_date+'">';
+		output += '<a href="#" class="delete-marker text-light pull-right padding-sm-bottom" data-target="'+marker_id+'"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></a>';
 		output += '</div>';
 	}
 
@@ -106,7 +116,7 @@ function setRoundTrip() {
 	var latlng = markers[0].getPosition();
 	addToPath(latlng);
 	round_trip = true;
-	$('input#roundtrip_arrival_date').slideDown(500, function() {
+	$('#arrival-wrap').slideDown(500, function() {
 		$(this).addClass('visible');	
 	});
 	$('#places-list-end').slideDown(500, function() {
@@ -119,7 +129,7 @@ function setOneWayTrip() {
 
 	round_trip = false;
 	updatePath(markers);
-	$('input#roundtrip_arrival_date').slideUp(200, function() {
+	$('#arrival-wrap').slideUp(200, function() {
 		$(this).removeClass('visible');	
 	});
 	$('#places-list-end').slideUp(200, function() {

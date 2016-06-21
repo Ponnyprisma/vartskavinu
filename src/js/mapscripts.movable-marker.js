@@ -64,7 +64,7 @@ function createMovableMarkerBtn(address) {
 
 	output += '<p><strong>Hittad adress</strong><br />'+address+'</p>';
 	//if(!trip_ended) {
-		output += '<a href="#" class="btn btn-primary btn-sm btn-block" id="place_marker">Placera markör</a>';
+		output += '<a href="#" class="btn btn-ghost dark btn-sm btn-block" id="place_marker">Placera markör</a>';
 	//}
 
 	return output;

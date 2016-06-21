@@ -4,7 +4,6 @@
 
 		static public function fallback($input) {
 
-			session_destroy();
 			$clean_input = DB::clean($input);
 
 			$output = [
