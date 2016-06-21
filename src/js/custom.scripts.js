@@ -46,9 +46,33 @@ $(document).ready(function() {
 		});
 	});
 
+	$(document).on('keyup blur', 'textarea', function() {
+		var this_id = $(this).attr('data-target');
+		var this_info = $(this).val();
+		setInfo(this_id, this_info);
+	});
+
 });
 
 function addDateToList(this_marker_id, this_marker_name, selectedDate) {	
 	$('div[data-content="'+this_marker_id+'"]').find('.'+this_marker_name).text(selectedDate);
+}
+
+function setInfo(this_id, this_info) {
+	$('div[data-content="'+this_id+'"] p.info').text(this_info);
+
+	markerData = {
+		'marker_id': this_id,
+		'info': this_info
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/updatemarkerinfo/',
+		success: function(e){
+			//console.log(e);
+		}	
+	});
 }
 

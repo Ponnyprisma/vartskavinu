@@ -2,10 +2,11 @@
  * Här ligger allt som har att göra med de utplacerade statiska markörerna
  */
 
-function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, departure_date) {
+function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, departure_date, info) {
 
 	arrival_date = typeof arrival_date !== 'undefined' ? arrival_date : '';
 	departure_date = typeof departure_date !== 'undefined' ? departure_date : '';
+	info = typeof info !== 'undefined' ? info : '';
 
 	// Skapa ett nytt markörobjekt
 	var marker = new google.maps.Marker({
@@ -22,7 +23,7 @@ function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, dep
 	updateMarkerTitles(markers);
 
 	// Funktion för att lägga till ett infofönster när man klickar på en markör
-	var infowindow = addInfoWindow(marker, createStaticMarkerContent(marker, marker_id, infoWindowContent, arrival_date, departure_date));
+	var infowindow = addInfoWindow(marker, createStaticMarkerContent(marker, marker_id, infoWindowContent, arrival_date, departure_date, info));
 	addToPath(latlng, marker_id);
 	bounds.extend(latlng);
 	if(markers.length > 1) {
@@ -45,7 +46,7 @@ function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, dep
 /*
 	Funktionen med vilken man skapar ett infofönster som man få fram när man klickar på en markör
  */
-function addInfoWindow(marker, infoWindowContent, arrival_date, departure_date) {
+function addInfoWindow(marker, infoWindowContent, arrival_date, departure_date, info) {
 
 	// Skapa ett nytt infoWindow-objekt
 	var infowindow = new google.maps.InfoWindow({
@@ -59,7 +60,7 @@ function addInfoWindow(marker, infoWindowContent, arrival_date, departure_date) 
 	return infowindow;
 }
 
-function createStaticMarkerContent(marker, marker_id, address, arrival_date, departure_date) {
+function createStaticMarkerContent(marker, marker_id, address, arrival_date, departure_date, info) {
 
 	var output = '';
 
@@ -101,6 +102,16 @@ function createStaticMarkerContent(marker, marker_id, address, arrival_date, dep
 		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate margin-md-bottom" value="'+arrival_date+'">';
 		output += '<label class="text-light"><i class="fa fa-plane fa-fw text-light"></i> Departure</label>';
 		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate margin-md-bottom" value="'+departure_date+'">';
+		output += '</div>';
+	}
+
+	output += '<div class="form-group">';
+	output += '<label class="text-light">Fritext</label>';
+	output += '<textarea name="info" data-target="'+marker_id+'" class="form-control margin-md-bottom">'+info+'</textarea>';
+	output += '</div>';
+	
+	if(marker_id !== 0) {
+		output += '<div class="form-group">';
 		output += '<a href="#" class="delete-marker text-light pull-right padding-sm-bottom" data-target="'+marker_id+'"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></a>';
 		output += '</div>';
 	}
@@ -111,10 +122,10 @@ function createStaticMarkerContent(marker, marker_id, address, arrival_date, dep
 	return output;
 }
 
-function setRoundTrip() {
+function setRoundTrip(addtopath) {
 
 	var latlng = markers[0].getPosition();
-	addToPath(latlng);
+	addToPath(latlng, addtopath);
 	round_trip = true;
 	$('#arrival-wrap').slideDown(500, function() {
 		$(this).addClass('visible');	
@@ -122,7 +133,6 @@ function setRoundTrip() {
 	$('#places-list-end').slideDown(500, function() {
 		$(this).addClass('visible');	
 	});
-	console.log('round trip set');
 }
 
 function setOneWayTrip() {

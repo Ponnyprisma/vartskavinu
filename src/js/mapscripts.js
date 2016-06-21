@@ -125,7 +125,7 @@ $(document).ready(function(){
 			// om rutan är ikryssad
 			if($(this).prop('checked') === true) {
 				// knyt ihop våra respunkter
-				setRoundTrip();
+				setRoundTrip(true);
 			}
 			else {
 				// ta bort sträcket som knyter ihop resan
@@ -202,17 +202,20 @@ function getAllMarkersFromDB() {
 		url: '/map/getallmarkers/',
 		dataType: 'json',
 		success: function(markers_from_db){
+			console.log(markers_from_db);
 			for(var i in markers_from_db) {
 				this_marker_id = Number(markers_from_db[i].marker_id);
 				this_latlng = new google.maps.LatLng(markers_from_db[i].lat, markers_from_db[i].lng);
 				this_address = markers_from_db[i].address;
 				this_arrival_date = markers_from_db[i].arrival_date;
 				this_departure_date = markers_from_db[i].departure_date;
+				this_info = markers_from_db[i].info;
 
-				addStaticMarker(this_latlng, this_address, this_marker_id, this_arrival_date, this_departure_date);
+				addStaticMarker(this_latlng, this_address, this_marker_id, this_arrival_date, this_departure_date, this_info);
 				addToPlacesList(this_address, this_marker_id);
 				addDateToList(this_marker_id, 'arrival_date', this_arrival_date);
 				addDateToList(this_marker_id, 'departure_date', this_departure_date);
+				setInfo(this_marker_id, this_info);
 			}
 			if(round_trip) {
 				setRoundTrip();

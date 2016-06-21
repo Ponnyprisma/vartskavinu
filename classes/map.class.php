@@ -74,6 +74,18 @@
 			die;
 		}
 
+		public static function updateMarkerInfo($post_data) {
+			$clean_post_data = DB::clean($post_data);
+
+			$map_id = self::checkSession();
+			$marker_id = $clean_post_data['marker_id'];
+			$info = $clean_post_data['info'];
+
+			$sql = 'UPDATE markers SET info = "'.$info.'" WHERE map_id = "'.$map_id.'" AND marker_id = "'.$marker_id.'"';
+			DB::query($sql);
+			die;
+		}
+
 		public static function getAllMarkers() {
 			$map_id = self::checkSession();
 

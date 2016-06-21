@@ -197,6 +197,23 @@ input[type="text"].form-control {
 	input[type="text"].form-control {
 		border-bottom: 3px solid $colorWarmLight;
 	}
+
+	textarea {
+		border-radius: 0;
+		border: none;
+		box-shadow: 0;
+		font-size: 0.9em;
+		@include font();
+		padding: 20px;
+		font-weight: 400;
+		outline: none;
+		box-shadow: none;
+		border-bottom: 3px solid $colorWarmLight;
+
+		&:focus {
+			outline: none;
+		}
+	}
 }
 
 #login-ctr {

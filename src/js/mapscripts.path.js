@@ -2,7 +2,7 @@
  * Här ligger allt som har att göra med vår sträckning av reserutten
  */
 
-function addToPath(latlng, marker_id) {
+function addToPath(latlng, marker_id, proceed) {
 
 	if(typeof marker_id === 'undefined') return;
 

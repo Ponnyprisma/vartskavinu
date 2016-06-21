@@ -46,10 +46,34 @@ $(document).ready(function() {
 		});
 	});
 
+	$(document).on('keyup blur', 'textarea', function() {
+		var this_id = $(this).attr('data-target');
+		var this_info = $(this).val();
+		setInfo(this_id, this_info);
+	});
+
 });
 
 function addDateToList(this_marker_id, this_marker_name, selectedDate) {	
 	$('div[data-content="'+this_marker_id+'"]').find('.'+this_marker_name).text(selectedDate);
+}
+
+function setInfo(this_id, this_info) {
+	$('div[data-content="'+this_id+'"] p.info').text(this_info);
+
+	markerData = {
+		'marker_id': this_id,
+		'info': this_info
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/updatemarkerinfo/',
+		success: function(e){
+			//console.log(e);
+		}	
+	});
 }
 
 
@@ -180,7 +204,7 @@ $(document).ready(function(){
 			// om rutan är ikryssad
 			if($(this).prop('checked') === true) {
 				// knyt ihop våra respunkter
-				setRoundTrip();
+				setRoundTrip(true);
 			}
 			else {
 				// ta bort sträcket som knyter ihop resan
@@ -257,17 +281,20 @@ function getAllMarkersFromDB() {
 		url: '/map/getallmarkers/',
 		dataType: 'json',
 		success: function(markers_from_db){
+			console.log(markers_from_db);
 			for(var i in markers_from_db) {
 				this_marker_id = Number(markers_from_db[i].marker_id);
 				this_latlng = new google.maps.LatLng(markers_from_db[i].lat, markers_from_db[i].lng);
 				this_address = markers_from_db[i].address;
 				this_arrival_date = markers_from_db[i].arrival_date;
 				this_departure_date = markers_from_db[i].departure_date;
+				this_info = markers_from_db[i].info;
 
-				addStaticMarker(this_latlng, this_address, this_marker_id, this_arrival_date, this_departure_date);
+				addStaticMarker(this_latlng, this_address, this_marker_id, this_arrival_date, this_departure_date, this_info);
 				addToPlacesList(this_address, this_marker_id);
 				addDateToList(this_marker_id, 'arrival_date', this_arrival_date);
 				addDateToList(this_marker_id, 'departure_date', this_departure_date);
+				setInfo(this_marker_id, this_info);
 			}
 			if(round_trip) {
 				setRoundTrip();
@@ -653,7 +680,7 @@ function createMovableMarkerBtn(address) {
  * Här ligger allt som har att göra med vår sträckning av reserutten
  */
 
-function addToPath(latlng, marker_id) {
+function addToPath(latlng, marker_id, proceed) {
 
 	if(typeof marker_id === 'undefined') return;
 
@@ -716,6 +743,7 @@ function addToPlacesList(address, marker_id) {
 	output += '<h5 class="text-white">'+address+'</h5>';
 	output += '<p class="trip-header text-white arrival_date_wrap"><span class="text-light"><i class="fa fa-plane fa-fw fa-rotate-90 text-light"></i></span><span class="arrival_date"></span></p>';
 	output += '<p class="trip-header text-white departure_date_wrap"><span class="text-light"><i class="fa fa-plane fa-fw text-light"></i></span><span class="departure_date"></span></p>';
+	output += '<p class="info text-white padding-md-left"></p>';
 	output += '</div>';
 
 	if(marker_id === 0) { 
@@ -752,10 +780,11 @@ function findByForm(address) {
  * Här ligger allt som har att göra med de utplacerade statiska markörerna
  */
 
-function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, departure_date) {
+function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, departure_date, info) {
 
 	arrival_date = typeof arrival_date !== 'undefined' ? arrival_date : '';
 	departure_date = typeof departure_date !== 'undefined' ? departure_date : '';
+	info = typeof info !== 'undefined' ? info : '';
 
 	// Skapa ett nytt markörobjekt
 	var marker = new google.maps.Marker({
@@ -772,7 +801,7 @@ function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, dep
 	updateMarkerTitles(markers);
 
 	// Funktion för att lägga till ett infofönster när man klickar på en markör
-	var infowindow = addInfoWindow(marker, createStaticMarkerContent(marker, marker_id, infoWindowContent, arrival_date, departure_date));
+	var infowindow = addInfoWindow(marker, createStaticMarkerContent(marker, marker_id, infoWindowContent, arrival_date, departure_date, info));
 	addToPath(latlng, marker_id);
 	bounds.extend(latlng);
 	if(markers.length > 1) {
@@ -795,7 +824,7 @@ function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, dep
 /*
 	Funktionen med vilken man skapar ett infofönster som man få fram när man klickar på en markör
  */
-function addInfoWindow(marker, infoWindowContent, arrival_date, departure_date) {
+function addInfoWindow(marker, infoWindowContent, arrival_date, departure_date, info) {
 
 	// Skapa ett nytt infoWindow-objekt
 	var infowindow = new google.maps.InfoWindow({
@@ -809,7 +838,7 @@ function addInfoWindow(marker, infoWindowContent, arrival_date, departure_date) 
 	return infowindow;
 }
 
-function createStaticMarkerContent(marker, marker_id, address, arrival_date, departure_date) {
+function createStaticMarkerContent(marker, marker_id, address, arrival_date, departure_date, info) {
 
 	var output = '';
 
@@ -851,6 +880,16 @@ function createStaticMarkerContent(marker, marker_id, address, arrival_date, dep
 		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate margin-md-bottom" value="'+arrival_date+'">';
 		output += '<label class="text-light"><i class="fa fa-plane fa-fw text-light"></i> Departure</label>';
 		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate margin-md-bottom" value="'+departure_date+'">';
+		output += '</div>';
+	}
+
+	output += '<div class="form-group">';
+	output += '<label class="text-light">Fritext</label>';
+	output += '<textarea name="info" data-target="'+marker_id+'" class="form-control margin-md-bottom">'+info+'</textarea>';
+	output += '</div>';
+	
+	if(marker_id !== 0) {
+		output += '<div class="form-group">';
 		output += '<a href="#" class="delete-marker text-light pull-right padding-sm-bottom" data-target="'+marker_id+'"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></a>';
 		output += '</div>';
 	}
@@ -861,10 +900,10 @@ function createStaticMarkerContent(marker, marker_id, address, arrival_date, dep
 	return output;
 }
 
-function setRoundTrip() {
+function setRoundTrip(addtopath) {
 
 	var latlng = markers[0].getPosition();
-	addToPath(latlng);
+	addToPath(latlng, addtopath);
 	round_trip = true;
 	$('#arrival-wrap').slideDown(500, function() {
 		$(this).addClass('visible');	
@@ -872,7 +911,6 @@ function setRoundTrip() {
 	$('#places-list-end').slideDown(500, function() {
 		$(this).addClass('visible');	
 	});
-	console.log('round trip set');
 }
 
 function setOneWayTrip() {
