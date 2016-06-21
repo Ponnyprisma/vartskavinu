@@ -25,10 +25,14 @@ var bounds;
 var standardMarker = new google.maps.MarkerImage("/px/marker_member-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
 var personMarker = new google.maps.MarkerImage("/px/marker_person-44x60-2x.png", null, null, null, new google.maps.Size(22,30));
 
+getRoundTripFromDB();
+
 /*
 	När all kod har körts...
  */
 $(document).ready(function(){
+
+	getAllMarkersFromDB();
 
 	/*
 		När vårt element med Id "gmap" existerar
@@ -110,6 +114,7 @@ $(document).ready(function(){
 			var marker_id = $(this).attr('data-target');
 			if(confirm("Radera resmål?")) {
 				removeLocationAndMarker(marker_id);
+				deleteMarkerFromDB(marker_id);
 			}
 		});
 
@@ -126,8 +131,138 @@ $(document).ready(function(){
 				// ta bort sträcket som knyter ihop resan
 				setOneWayTrip();
 			}
+
+			changeRoundTripInDB();
 		});	
 	
 	});
 
 });
+
+function addMarkerToDB(marker_id, latlng, address) {
+
+	markerData = {
+		'marker_id': marker_id,
+		'lat': latlng.lat(),
+		'lng': latlng.lng(),
+		'address': address
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/addmarker/',
+		success: function(e){
+			//console.log(e);
+		}	
+	});
+
+}
+
+function deleteMarkerFromDB(marker_id) {
+
+	markerData = {
+		'marker_id': marker_id
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/deletemarker/',
+		success: function(e){
+			//console.log(e);
+		}	
+	});
+
+}
+
+function updateMarkerInDB(marker_id, latlng, address) {
+
+	markerData = {
+		'marker_id': marker_id,
+		'lat': latlng.lat(),
+		'lng': latlng.lng(),
+		'address': address
+	}
+
+	$.ajax({
+		type: "POST",
+		data: markerData,
+		url: '/map/updatemarker/',
+		success: function(e){
+			//console.log(e);
+		}	
+	});
+
+}
+
+function getAllMarkersFromDB() {
+	$.ajax({
+		type: "POST",
+		url: '/map/getallmarkers/',
+		dataType: 'json',
+		success: function(markers_from_db){
+			for(var i in markers_from_db) {
+				this_marker_id = Number(markers_from_db[i].marker_id);
+				this_latlng = new google.maps.LatLng(markers_from_db[i].lat, markers_from_db[i].lng);
+				this_address = markers_from_db[i].address;
+				this_arrival_date = markers_from_db[i].arrival_date;
+				this_departure_date = markers_from_db[i].departure_date;
+
+				addStaticMarker(this_latlng, this_address, this_marker_id, this_arrival_date, this_departure_date);
+				addToPlacesList(this_address, this_marker_id);
+				addDateToList(this_marker_id, 'arrival_date', this_arrival_date);
+				addDateToList(this_marker_id, 'departure_date', this_departure_date);
+			}
+			if(round_trip) {
+				setRoundTrip();
+			}
+		}	
+	});
+}
+
+function changeRoundTripInDB() {
+	$.ajax({
+		type: "POST",
+		url: '/map/changeroundtrip/',
+		success: function(e){
+			//console.log(e);
+		}	
+	});
+}
+
+function getRoundTripFromDB() {
+	$.ajax({
+		type: "POST",
+		url: '/map/getroundtrip/',
+		dataType: 'json',
+		success: function(e){
+			if(e.round_trip === '1') {
+				round_trip = true;
+				//setRoundTrip();
+				//$('input#roundtrip_arrival_date').addClass('visible');	
+			}
+			else {
+				//setOneWayTrip();
+			}
+		}	
+	});
+}
+
+function setDateInDB(marker_id, type_of_trip, date) {
+
+	markerData = {
+		'marker_id': marker_id,
+		'type_of_trip': type_of_trip,
+		'date': date
+	}
+
+	$.ajax({
+		type: "POST",
+		url: '/map/setdate/',
+		data: markerData,
+		success: function(e){
+			//console.log(e);
+		}	
+	});
+}

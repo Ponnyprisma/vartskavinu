@@ -16,6 +16,7 @@ function addLocation(latlng) {
 			var address = results[2].formatted_address;
 			var marker_id = addStaticMarker(latlng, address);
 			addToPlacesList(address, marker_id);
+			addMarkerToDB(marker_id, latlng, address);
 		} 
 		else {
 	        alert('Ingen address hittad!');
@@ -27,7 +28,6 @@ function updateLocation(infowindow, latlng, marker_id) {
 	geocoder.geocode({'location': latlng}, geocb);
 	var marker;
 	for(i in markers) {
-		console.log(marker_id+'/'+i);
 		if(Number(marker_id) === Number(i)) {
 			marker = markers[i];
 		}
@@ -45,6 +45,7 @@ function updateLocation(infowindow, latlng, marker_id) {
 			//infowindow.setContent(createStaticMarkerContent(marker, marker_id, address));
 			$('#'+marker_id+'_address').text(address);
 			updatePlaceList(marker_id, address);
+			updateMarkerInDB(marker_id, latlng, address);
 		} 
 		else {
 	        alert('Ingen address hittad!');

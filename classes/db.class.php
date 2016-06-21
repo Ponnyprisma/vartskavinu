@@ -10,7 +10,7 @@
 			'url' => 'localhost', 
 			'user' => 'root', 
 			'password' => 'root', 
-			'database' => ''
+			'database' => 'lilledo'
 		];
 
 		// online

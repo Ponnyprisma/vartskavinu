@@ -1,41 +1,22 @@
-<p id="slider-btn" class="pull-left visible-xs">
-	<button type="button" class="btn btn-primary btn-lg" data-toggle="offcanvas">Visa/dölj</button>
-</p>
+<div class="row">
 
-<div class="row row-offcanvas row-offcanvas-left">
-
-	<div id="sidebar" class="col-xs-12 col-sm-3 sidebar-offcanvas">
-
+	<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 text-center">
+		<h1>Vart ska vi nu?</h1>
 		<div class="row">
-
-			<div class="col-xs-12">
-		
-				<h1 class="text-white">Vart ska vi nu?</h1>
-				
-				<form method="post" class="form" id="geocoding_form">
-					<div class="input-group">
-						<input type="text" class="form-control" id="geocoding_form_address" name="geocoding_form_address" placeholder="Sök plats">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit">Sök</button>
-						</span>
-					</div><!-- /input-group -->
-				</form>
-
+			<div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
+				<img class="img-responsive" src="/px/logga.png" alt="Lille.do" />
 			</div>
-
 		</div>
-
-		<div class="row text-white" id="places-list-start">
-		</div>
-		<div class="row text-white" id="places-list">
-		</div>
-		<div class="row text-white" id="places-list-end">
-		</div>
-
+		<form class="form" action="/map/login/" method="post">
+			<div class="form-group">
+				<label for="login-form-map-id">Ange kartans ID</label>
+				<input type="text" class="form-control" id="login-form-map-id" placeholder="Ex. 7, eller kanske 13...       2? HOHO" name="id" />
+			</div>
+			<div class="form-group">
+				<input type="submit" class="btn btn-primary btn-block" value="Logga in" />
+			</div>
+		</form>
+		<a href="/map/" class="btn btn-success btn-block">Skapa en ny karta</a>
 	</div>
 
-	<div class="col-xs-12 col-sm-9" id="gmap-wrap">
-		<div id="gmap"></div>
-	</div>
-
-</div> <!--row-offcanvas-->
+</div>

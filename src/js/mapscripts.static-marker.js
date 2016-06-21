@@ -2,7 +2,10 @@
  * Här ligger allt som har att göra med de utplacerade statiska markörerna
  */
 
-function addStaticMarker(latlng, infoWindowContent) {
+function addStaticMarker(latlng, infoWindowContent, marker_id, arrival_date, departure_date) {
+
+	arrival_date = typeof arrival_date !== 'undefined' ? arrival_date : '';
+	departure_date = typeof departure_date !== 'undefined' ? departure_date : '';
 
 	// Skapa ett nytt markörobjekt
 	var marker = new google.maps.Marker({
@@ -14,13 +17,13 @@ function addStaticMarker(latlng, infoWindowContent) {
 	});
 
 	markers.push(marker);
-	var marker_id = (markers.length-1);
+	marker_id = typeof marker_id !== 'undefined' ? marker_id : (markers.length-1);
 
 	updateMarkerTitles(markers);
 
 	// Funktion för att lägga till ett infofönster när man klickar på en markör
-	var infowindow = addInfoWindow(marker, createStaticMarkerContent(marker, marker_id, infoWindowContent));
-	addToPath(latlng);
+	var infowindow = addInfoWindow(marker, createStaticMarkerContent(marker, marker_id, infoWindowContent, arrival_date, departure_date));
+	addToPath(latlng, marker_id);
 	bounds.extend(latlng);
 	if(markers.length > 1) {
 		map.fitBounds(bounds);
@@ -42,7 +45,7 @@ function addStaticMarker(latlng, infoWindowContent) {
 /*
 	Funktionen med vilken man skapar ett infofönster som man få fram när man klickar på en markör
  */
-function addInfoWindow(marker, infoWindowContent) {
+function addInfoWindow(marker, infoWindowContent, arrival_date, departure_date) {
 
 	// Skapa ett nytt infoWindow-objekt
 	var infowindow = new google.maps.InfoWindow({
@@ -56,16 +59,17 @@ function addInfoWindow(marker, infoWindowContent) {
 	return infowindow;
 }
 
-function createStaticMarkerContent(marker, marker_id, address) {
+function createStaticMarkerContent(marker, marker_id, address, arrival_date, departure_date) {
+
 	var output = '';
 
 	output += '<div class="static-marker-content">';
 	output += '<h4 id="'+marker_id+'_address">'+address+'</h4>';
 	output += '<form class="form">';
 
-	if(marker === markers[0]) {
+	if(marker_id === 0) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate startdate">';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate startdate" value="'+departure_date+'">';
 		output += '</div>';
 		output += '<div class="form-group">';
 		output += '<label><input type="checkbox" id="round-trip" value="1" ';
@@ -75,14 +79,18 @@ function createStaticMarkerContent(marker, marker_id, address) {
 		output +='> Rundresa</label>'; 
 		output += '</div>';
 		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker maxDate enddate" id="roundtrip_arrival_date">';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker maxDate enddate';
+		if(round_trip) {
+			output += ' visible';
+		}
+		output += '" id="roundtrip_arrival_date" value="'+arrival_date+'">';
 		output += '</div>';	
 	}
 
-	if(marker !== markers[0]) {
+	if(marker_id !== 0) {
 		output += '<div class="form-group">';
-		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate">';
-		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate">';
+		output += '<input type="text" name="arrival_date" data-target="'+marker_id+'" class="form-control datepicker minDate" value="'+arrival_date+'">';
+		output += '<input type="text" name="departure_date" data-target="'+marker_id+'" class="form-control datepicker minDate" value="'+departure_date+'">';
 		output += '<a href="#" class="delete-marker" data-target="'+marker_id+'">Radera markör</a>';
 		output += '</div>';
 	}
@@ -104,7 +112,7 @@ function setRoundTrip() {
 	$('#places-list-end').slideDown(500, function() {
 		$(this).addClass('visible');	
 	});
-
+	console.log('round trip set');
 }
 
 function setOneWayTrip() {
