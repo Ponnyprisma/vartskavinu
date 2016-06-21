@@ -134,7 +134,9 @@
 				$_SESSION['lilledo'] = $data['id'];
 				$output = ['redirect_url' => '/map/'];
 			}
-
+			else {
+				$output = ['redirect_url' => '/?error=no_map_id'];
+			}
 	 		return $output;
 			die;
 

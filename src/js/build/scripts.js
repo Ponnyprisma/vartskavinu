@@ -9,7 +9,6 @@ $(document).ready(function() {
 		$('.row-offcanvas').toggleClass('active')
 	});
 
-
 	$('body').on('focus',".datepicker:not(.startdate)", function(){
 		$(this).datepicker({
 			minDate: newMinDate,
@@ -393,6 +392,123 @@ function removeLocationAndMarker(marker_id) {
 
 var styles = [
     {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#352a40"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#352a40"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#352a40"
+            },
+            {
+                "lightness": 37
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#352a40"
+            },
+            {
+                "lightness": 25
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#352a40"
+            },
+            {
+                "lightness": 15
+            }
+        ]
+    },
+    {
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#3e606f"
+            },
+            {
+                "weight": 2
+            },
+            {
+                "gamma": 0.84
+            }
+        ]
+    },
+    {
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "weight": 0.6
+            },
+            {
+                "color": "#ffcc00"
+            }
+        ]
+    },
+    {
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#352a40"
+            },
+            {
+                "lightness": 25
+            }
+        ]
+    }
+];
+
+var styles_ = [
+    {
         "featureType": "landscape.natural",
         "elementType": "geometry.fill",
         "stylers": [
@@ -400,7 +516,7 @@ var styles = [
                 "visibility": "on"
             },
             {
-                "color": "#e0efef"
+                "color": "#FFCC00"
             }
         ]
     },
@@ -412,10 +528,10 @@ var styles = [
                 "visibility": "on"
             },
             {
-                "hue": "#1900ff"
+                "hue": "#352A40"
             },
             {
-                "color": "#c0e8e8"
+                "color": "#ffb700"
             }
         ]
     },
@@ -457,7 +573,7 @@ var styles = [
         "elementType": "all",
         "stylers": [
             {
-                "color": "#7dcdcd"
+                "color": "#352A40"
             }
         ]
     }

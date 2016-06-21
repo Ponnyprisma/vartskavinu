@@ -90,7 +90,8 @@
 //        $twig_data = Home::ohDearyMeQueueTheFourohfour();
 //    }
 
-    if(isset($twig_data['redirect_url'])) { 
+    if(isset($twig_data['redirect_url'])) {
+        echo 'hej';
         header('Location: '.$twig_data['redirect_url']); die; 
     }
 
