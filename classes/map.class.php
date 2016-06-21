@@ -138,7 +138,7 @@
 				$output = ['redirect_url' => '/?error=no_map_id'];
 			}
 	 		return $output;
-			die;
+			//die;
 
 		}
 

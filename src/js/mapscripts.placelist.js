@@ -1,6 +1,6 @@
 /**
  * Places List är listan i vänsterspalten
- */
+ **/
 
 function addToPlacesList(address, marker_id) {
 	
