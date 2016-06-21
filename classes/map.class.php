@@ -2,7 +2,7 @@
 
 	class Map {
 
-		static public function fallback($input) {
+		static public function fallbacky($input) {
 			$clean_input = DB::clean($input);
 			$_SESSION['lilledo'] = self::checkSession();
 

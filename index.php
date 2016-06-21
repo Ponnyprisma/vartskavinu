@@ -1,6 +1,8 @@
  <?php
 
-    session_start();
+    if (!session_id()) {
+        session_start();
+    }
 
     // Skapar konstanten ROOT. Vet alltid vilken som är vår huvudadress: everythingsthlm.se
     define('ROOT', $_SERVER['HTTP_HOST']);
