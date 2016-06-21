@@ -9,7 +9,6 @@ $(document).ready(function() {
 		$('.row-offcanvas').toggleClass('active')
 	});
 
-
 	$('body').on('focus',".datepicker:not(.startdate)", function(){
 		$(this).datepicker({
 			minDate: newMinDate,
@@ -590,7 +589,7 @@ function createPath(path_coordinates) {
 }
 /**
  * Places List är listan i vänsterspalten
- */
+ **/
 
 function addToPlacesList(address, marker_id) {
 	

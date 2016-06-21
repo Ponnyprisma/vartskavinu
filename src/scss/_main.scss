@@ -27,6 +27,10 @@ h1, h2, p {
 	font-weight: 900;
 }
 
+h5 {
+	font-weight: bold;
+}
+
 .text-white {
 	color: white;
 }
@@ -81,6 +85,13 @@ input#roundtrip_arrival_date.visible {
 #places-list-start {
 	.arrival_date_wrap {
 		display: none;
+	}
+}
+
+.place {
+	span {
+		font-weight: normal;
+		padding-left: 10px;
 	}
 }
 
@@ -139,6 +150,26 @@ input[type="text"].form-control{
 
 #login-ctr {
 	margin-top: 5%;
+}
+
+.btn-logout{
+
+	border-radius: 0;
+	color: white;
+	background-color: transparent;
+	border: none;
+	border: 3px solid white;
+	box-shadow: none !important;
+	text-shadow: none !important;
+	outline: none;
+	@include font();
+	font-size: 1em;
+	transition: all .4s;
+
+	&:hover{
+		color: $colorVarm;
+		background-color: transparent;
+	}
 }
 
 

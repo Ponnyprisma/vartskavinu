@@ -1,10 +1,10 @@
 <p id="slider-btn" class="pull-left visible-xs">
-	<button type="button" class="btn btn-primary btn-lg" data-toggle="offcanvas">Visa/dölj</button>
+	<button type="button" class="btn btn-ghost" data-toggle="offcanvas">Visa/dölj</button>
 </p>
 
 <div class="row row-offcanvas row-offcanvas-left">
 
-	<div id="sidebar" class="col-xs-12 col-sm-3 sidebar-offcanvas">
+	<div id="sidebar" class="col-xs-12 col-sm-3 sidebar-offcanvas padding-md-bottom">
 
 		<div class="row">
 
@@ -14,7 +14,7 @@
 					
 				<div class="row">
 					<div class="col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-lg-6 col-lg-offset-3">
-						<img class="img-responsive" src="/px/loggagul.png" alt="Lille.do" />
+						<img class="img-responsive padding-lg-bottom" src="/px/loggagul.png" alt="Lille.do" />
 					</div>
 				</div>
 	
@@ -39,12 +39,7 @@
 		<div class="row text-white" id="places-list-end">
 		</div>
 
-		<span class="text-white">
-			{% if session %}
-				Sessions-ID: {{session}}
-			{% endif %}
-		</span>
-		<a class="text-white" href="/map/logout/">Logga ut</a>
+		<a class="btn btn-logout pull-right" href="/map/logout/">Logga ut</a>
 
 	</div>
 
