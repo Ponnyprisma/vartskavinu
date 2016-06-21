@@ -1,22 +1,22 @@
 <div class="row">
 
-	<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 text-center">
+	<div id="login-ctr" class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 text-center">
 		<h1>Vart ska vi nu?</h1>
 		<div class="row">
-			<div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
+			<div class="col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4">
 				<img class="img-responsive" src="/px/logga.png" alt="Lille.do" />
 			</div>
 		</div>
 		<form class="form" action="/map/login/" method="post">
 			<div class="form-group">
 				<label for="login-form-map-id">Ange kartans ID</label>
-				<input type="text" class="form-control" id="login-form-map-id" placeholder="Ex. 7, eller kanske 13...       2? HOHO" name="id" />
+				<input type="text" class="form-control" id="login-form-map-id" placeholder="Ex. 7, eller kanske 13..." name="id" />
 			</div>
 			<div class="form-group">
-				<input type="submit" class="btn btn-primary btn-block" value="Logga in" />
+				<input type="submit" class="btn btn-block btn-ghost" value="Logga in" />
 			</div>
 		</form>
-		<a href="/map/" class="btn btn-success btn-block">Skapa en ny karta</a>
+		<a href="/map/" class="btn btn-block new-map-link">Skapa en ny karta</a>
 	</div>
 
 </div>
