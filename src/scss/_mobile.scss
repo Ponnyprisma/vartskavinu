@@ -1,45 +1,50 @@
-/* mobile */
 /*
-.container-fluid{
+ * Off Canvas
+ * -----------------------------------
+ */
 
+#slider-btn {
+	position: absolute;
+	bottom: 15px;
+	left: 15px;
+	z-index: 9999;
 }
 
-section {
-
-	background-color: yellow;
-
-	//@include outer-container(100%);
-  
-	aside {
-
-		//@include pad();
-
-		min-height: 100vh;
-
-
-		.place-box-info {
-			display: none;
-			//width: 50%;
-			//height: 200px;
-		}
-
-	}
-
-	.containerMap {
-		
-		padding:$noPadding;
-	}
-
-	article { 
-			
-	  	#gmap {
-			width: 100%;
-			height: 100vh;
-			
-		} 
-	}
-
+.row-offcanvas {
+    position: relative;
+    -webkit-transition: all .5s ease-out;
+	-o-transition: all .5s ease-out;
+	transition: all .5s ease-out;
 }
 
-*/
+.row-offcanvas-right {
+	right: 0;
+}
 
+.row-offcanvas-left {
+	left: 0;
+}
+
+.row-offcanvas-right
+.sidebar-offcanvas {
+	right: -100vw; /* 12 columns */
+}
+
+.row-offcanvas-left
+.sidebar-offcanvas {
+	left: -100vw; /* 12 columns */
+}
+
+.row-offcanvas-right.active {
+	right: 100vw; /* 12 columns */
+}
+
+.row-offcanvas-left.active {
+	left: 100vw; /* 12 columns */
+}
+
+.sidebar-offcanvas {
+	position: absolute;
+	top: 0;
+	width: 100vw; /* 12 columns */
+}

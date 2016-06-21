@@ -109,3 +109,4 @@
     // Nytt twig-objekt skapas. $page innehåller vår twig-data och vi renderar twig-filen index.twig som hanterar all vår data
     $page = new Twig($twig_data);
     echo $page->render('index.twig');
+
