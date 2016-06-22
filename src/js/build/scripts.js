@@ -48,7 +48,8 @@ $(document).ready(function() {
 
 	$(document).on('keyup blur', 'textarea', function() {
 		var this_id = $(this).attr('data-target');
-		var this_info = $(this).val();
+		//var this_info = $(this).val();
+		var this_info = $(this).val().replace(/\n/g, '<br />');
 		setInfo(this_id, this_info);
 	});
 
@@ -59,7 +60,7 @@ function addDateToList(this_marker_id, this_marker_name, selectedDate) {
 }
 
 function setInfo(this_id, this_info) {
-	$('div[data-content="'+this_id+'"] p.info').text(this_info);
+	$('div[data-content="'+this_id+'"] p.info').html(this_info);
 
 	markerData = {
 		'marker_id': this_id,
@@ -288,13 +289,14 @@ function getAllMarkersFromDB() {
 				this_address = markers_from_db[i].address;
 				this_arrival_date = markers_from_db[i].arrival_date;
 				this_departure_date = markers_from_db[i].departure_date;
-				this_info = markers_from_db[i].info;
+				this_info_br = markers_from_db[i].info;
+				this_info = markers_from_db[i].info.replace(/<br\s*[\/]?>/gi, '\n');
 
 				addStaticMarker(this_latlng, this_address, this_marker_id, this_arrival_date, this_departure_date, this_info);
 				addToPlacesList(this_address, this_marker_id);
 				addDateToList(this_marker_id, 'arrival_date', this_arrival_date);
 				addDateToList(this_marker_id, 'departure_date', this_departure_date);
-				setInfo(this_marker_id, this_info);
+				setInfo(this_marker_id, this_info_br);
 			}
 			if(round_trip) {
 				setRoundTrip();

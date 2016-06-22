@@ -7,7 +7,7 @@
 			$_SESSION['lilledo'] = self::checkSession();
 
 			$output = [
-				'title' => 'Reseplanerare - Lille.do',
+				'title' => 'Planera din resa - Vart ska vi nu?',
 				'data'	=> $clean_input,
 				'session' => $_SESSION['lilledo']
 			];
@@ -16,7 +16,7 @@
 
 		}
 
-		private static function checkSession() {
+		public static function checkSession() {
 			if(!isset($_SESSION['lilledo'])) {
 				$sql = "INSERT INTO maps (id) VALUES (NULL);";
 				$id = DB::query($sql);
@@ -139,8 +139,8 @@
 
 		public static function login($post_data) {
 			$clean_post_data = DB::clean($post_data);
-
-			$sql = "SELECT id FROM maps WHERE id = ".$clean_post_data['id'];
+			$id = $clean_post_data['id'] == true ? (int)$clean_post_data['id'] : 0;
+			$sql = "SELECT id FROM maps WHERE id = ".$id;
 			$data = DB::query($sql, true);
 			if($data) {
 				$_SESSION['lilledo'] = $data['id'];

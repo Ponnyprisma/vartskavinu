@@ -6,12 +6,18 @@
 
 			$clean_input = DB::clean($input);
 
-			$output = [
-				'title' => 'Var ska vi no - Lille.do',
-				'data'	=> $clean_input
-			];
-			
-			return $output;
+			if(isset($_SESSION['lilledo'])) {
+				$output = ['redirect_url' => '/map/'];
+				return $output;
+				die;
+			}
+			else {
+				$output = [
+					'title' => 'Vart ska vi nu?',
+					'data'	=> $clean_input
+				];
+				return $output;
+			}			
 
 		}
 

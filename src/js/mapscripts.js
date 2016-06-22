@@ -209,13 +209,14 @@ function getAllMarkersFromDB() {
 				this_address = markers_from_db[i].address;
 				this_arrival_date = markers_from_db[i].arrival_date;
 				this_departure_date = markers_from_db[i].departure_date;
-				this_info = markers_from_db[i].info;
+				this_info_br = markers_from_db[i].info;
+				this_info = markers_from_db[i].info.replace(/<br\s*[\/]?>/gi, '\n');
 
 				addStaticMarker(this_latlng, this_address, this_marker_id, this_arrival_date, this_departure_date, this_info);
 				addToPlacesList(this_address, this_marker_id);
 				addDateToList(this_marker_id, 'arrival_date', this_arrival_date);
 				addDateToList(this_marker_id, 'departure_date', this_departure_date);
-				setInfo(this_marker_id, this_info);
+				setInfo(this_marker_id, this_info_br);
 			}
 			if(round_trip) {
 				setRoundTrip();

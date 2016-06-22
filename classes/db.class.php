@@ -14,13 +14,12 @@
 		];
 
 		// online
-		// private $db = [
-		//	'url' => '', 
-		//	'user' => '', 
-		//	'password' => '', 
-		//	'database' => ''
-		// ];
-
+		//private $db = [
+		//	'url' => 'vartskavino-107088.mysql.binero.se', 
+		//	'user' => '107088_wl44179', 
+		//	'password' => 'xazsqw2121', 
+		//	'database' => '107088-vartskavino'
+		//];
 		private function __construct() {
 			self::$mysqli = new mysqli($this->db['url'], $this->db['user'], $this->db['password'], $this->db['database']);
 			self::$mysqli->query("SET NAMES 'utf8'");

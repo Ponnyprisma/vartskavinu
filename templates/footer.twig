@@ -1,7 +1,8 @@
 		</div> <!-- container-fluid -->
-		<!--<script src="/js/scripts.min.js"></script>-->
-		<script src="/src/js/build/scripts.js"></script>
-
+		{% if session %}
+			<!--<script src="/js/scripts.min.js"></script>-->
+			<script src="/src/js/build/scripts.js"></script>
+		{% endif %}
     </body>
 
 </html>

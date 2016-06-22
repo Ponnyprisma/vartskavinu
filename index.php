@@ -45,24 +45,6 @@
             $method = 'fallback';
         }
         
-        // Kollar om det finns något kvar i $_GET efter att $_GET['class'] och $_GET['method'] är borttaget, lägger detta i 
-        // $get_data som skickas med in i Twig.  
-        if(isset($_GET)) {
-            $get_data = $_GET;
-        } else {
-            $get_data = FALSE;
-        }
-
-        // Samma koll som ovan görs för $_POST-data
-        if(isset($_POST)) {
-            $post_data = $_POST;
-        } else {
-            $post_data = FALSE;
-        }
-
-        //Kombinerar ihop eventuella $_GET- och $_POST-variabler till en $data-variabel med array_merge 
-        $data = array_merge($get_data, $post_data);
-        $data['http_referer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
     }
 
     // Om .htaccess inte hittar en klass används Home-klassen och metod fallback. 
@@ -70,6 +52,25 @@
         $class = 'home';
         $method = 'fallback';
     }
+
+    // Kollar om det finns något kvar i $_GET efter att $_GET['class'] och $_GET['method'] är borttaget, lägger detta i 
+    // $get_data som skickas med in i Twig.  
+    if(isset($_GET)) {
+        $get_data = $_GET;
+    } else {
+        $get_data = FALSE;
+    }
+
+    // Samma koll som ovan görs för $_POST-data
+    if(isset($_POST)) {
+        $post_data = $_POST;
+    } else {
+        $post_data = FALSE;
+    }
+
+    //Kombinerar ihop eventuella $_GET- och $_POST-variabler till en $data-variabel med array_merge 
+    $data = array_merge($get_data, $post_data);
+    $data['http_referer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 
     // Twig-filen som laddas in heter alltid samma som metoden.klassen.twig
     $twig_file = $class.'.'.$method.'.twig';
@@ -101,8 +102,6 @@
     if(!isset($twig_data['page'])) {
         $twig_data['page'] = $twig_file;
     }
-
-    
 
     $twig_data['http_referer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 

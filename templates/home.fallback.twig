@@ -11,6 +11,9 @@
 			<div class="form-group">
 				<label for="login-form-map-id">Ange kartans ID</label>
 				<input type="text" class="form-control" id="login-form-map-id" placeholder="Ex. 7, eller kanske 13..." name="id" />
+				{% if data.error == 'no_map_id'%}
+					<span class="margin-md-bottom">Den angivna kartan finns ej</span>
+				{% endif %}
 			</div>
 			<div class="form-group">
 				<input type="submit" class="btn btn-block btn-ghost" value="Logga in" />

@@ -5,8 +5,8 @@
 
 #slider-btn {
 	position: absolute;
-	bottom: 15px;
-	left: 15px;
+	bottom: -9999em;
+	left: -9999em;
 	z-index: 9999;
 }
 
@@ -32,7 +32,10 @@
 
 .row-offcanvas-left
 .sidebar-offcanvas {
-	left: -100vw; /* 12 columns */
+	/* för tillfället är kartan inte aktiv på mobiltelefon */
+	//left: -100vw; /* 12 columns */
+	left: 0;
+	z-index: 999;
 }
 
 .row-offcanvas-right.active {
@@ -40,7 +43,7 @@
 }
 
 .row-offcanvas-left.active {
-	left: 100vw; /* 12 columns */
+	//left: 100vw; /* 12 columns */
 }
 
 .sidebar-offcanvas {

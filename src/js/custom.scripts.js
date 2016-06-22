@@ -48,7 +48,8 @@ $(document).ready(function() {
 
 	$(document).on('keyup blur', 'textarea', function() {
 		var this_id = $(this).attr('data-target');
-		var this_info = $(this).val();
+		//var this_info = $(this).val();
+		var this_info = $(this).val().replace(/\n/g, '<br />');
 		setInfo(this_id, this_info);
 	});
 
@@ -59,7 +60,7 @@ function addDateToList(this_marker_id, this_marker_name, selectedDate) {
 }
 
 function setInfo(this_id, this_info) {
-	$('div[data-content="'+this_id+'"] p.info').text(this_info);
+	$('div[data-content="'+this_id+'"] p.info').html(this_info);
 
 	markerData = {
 		'marker_id': this_id,
