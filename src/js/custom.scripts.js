@@ -53,6 +53,11 @@ $(document).ready(function() {
 		setInfo(this_id, this_info);
 	});
 
+	$(document).on('click', '#logout-btn', function() {
+		var this_map_id = $(this).attr('data-target');
+		if(!confirm('Vill du logga ut? Använd ID '+this_map_id+' för att komma tillbaka till din karta.')) return false;
+	});
+
 });
 
 function addDateToList(this_marker_id, this_marker_name, selectedDate) {	
